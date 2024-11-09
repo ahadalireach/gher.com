@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  /* background-color: rgb(241, 245, 241); */
+  background-color: #f0fdf4;
+  font-family: "Lato";
+}
+
+.whitespace-pre-line {
+  white-space: pre-line;
+}
