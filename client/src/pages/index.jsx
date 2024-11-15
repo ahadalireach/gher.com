@@ -1,37 +1,37 @@
-import Home from "./Home";
-import About from "./About";
-import Profile from "./Profile";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import SellProperty from "./SellProperty";
-import UpdateProperty from "./UpdateProperty";
-import Property from "./Property";
-import Properties from "./Properties";
-import AdminSignIn from "./AdminSignIn";
-import AdminDashboard from "./AdminDashboard";
+import HomePage from "./HomePage";
+import AboutPage from "./AboutPage";
+import UserProfilePage from "./UserProfilePage";
+import UserSignInPage from "./UserSignInPage";
+import UserSignUpPage from "./UserSignUpPage";
+import SellPropertyPage from "./SellPropertyPage";
+import UpdatePropertyPage from "./UpdatePropertyPage";
+import PropertyInfoPage from "./PropertyInfoPage";
+import PropertiesPage from "./PropertiesPage";
+import AdminSignInPage from "./AdminSignInPage";
+import AdminDashboardPage from "./AdminDashboardPage";
 import ProfileInfo from "./ProfileInfo";
-import Contact from "./Contact";
-import AdminProfile from "./AdminProfile";
+import ContactPage from "./ContactPage";
+import AdminProfilePage from "./AdminProfilePage";
 import UserProfileUpdate from "./UserProfileUpdate";
-import NotFound from "./NotFound";
+import NotFoundPage from "./NotFoundPage";
 import UserPropertyUpdate from "./UserPropertyUpdate";
 
 export {
-  Home,
-  About,
-  Profile,
-  SignIn,
-  SignUp,
-  SellProperty,
-  UpdateProperty,
-  Property,
-  Properties,
-  AdminSignIn,
-  AdminDashboard,
+  HomePage,
+  AboutPage,
+  UserProfilePage,
+  UserSignInPage,
+  UserSignUpPage,
+  SellPropertyPage,
+  UpdatePropertyPage,
+  PropertyInfoPage,
+  PropertiesPage,
+  AdminSignInPage,
+  AdminDashboardPage,
   ProfileInfo,
-  Contact,
-  AdminProfile,
-  NotFound,
+  ContactPage,
+  AdminProfilePage,
+  NotFoundPage,
   UserProfileUpdate,
   UserPropertyUpdate,
 };

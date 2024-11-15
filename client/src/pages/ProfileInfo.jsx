@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useParams, Link } from "react-router-dom";
 import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
-import { AiOutlineDelete } from "react-icons/ai";
 
 const ProfileInfo = () => {
   const { id } = useParams();
@@ -117,21 +116,25 @@ const ProfileInfo = () => {
           </h1>
           <p className="text-md text-gray-700 mb-4">{userData?.email}</p>
           <div className="flex flex-col gap-4 mb-4 lg:flex-row lg:gap-6">
-            <a
-              href={`https://wa.me/${userData?.whatsappno}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-green-700 border-2 border-green-700 py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors duration-300 font-semibold"
-            >
-              Whatsapp
-            </a>
-            <a
-              href={`tel:${userData?.localno}`}
-              target="_blank"
-              className="bg-green-700 text-white border-2 border-green-700 py-2 px-4 rounded-lg hover:bg-green-800 hover:border-green-800 transition-colors text-center duration-300 font-semibold"
-            >
-              Call
-            </a>
+            {userData?.whatsappno && (
+              <a
+                href={`https://wa.me/${userData?.whatsappno}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-green-700 border-2 border-green-700 py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors duration-300 font-semibold"
+              >
+                Whatsapp
+              </a>
+            )}
+            {userData?.localno && (
+              <a
+                href={`tel:${userData?.localno}`}
+                target="_blank"
+                className="bg-green-700 text-white border-2 border-green-700 py-2 px-4 rounded-lg hover:bg-green-800 hover:border-green-800 transition-colors text-center duration-300 font-semibold"
+              >
+                Call
+              </a>
+            )}
           </div>
 
           <div className="flex items-start gap-6">

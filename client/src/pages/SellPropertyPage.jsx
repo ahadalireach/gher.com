@@ -1,4 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -6,11 +10,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
-const SellProperty = () => {
+const SellPropertyPage = () => {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -608,4 +609,4 @@ const SellProperty = () => {
   );
 };
 
-export default SellProperty;
+export default SellPropertyPage;

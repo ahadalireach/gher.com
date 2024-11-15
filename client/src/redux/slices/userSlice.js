@@ -13,18 +13,15 @@ const userSlice = createSlice({
   reducers: {
     signinStart: (state) => {
       state.loading = true;
-      console.log("Signing in...");
     },
     signinSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = null;
-      localStorage.setItem("token", action.payload.token);
     },
     signinFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
-      console.log("Signing in failure...", action.payload, state.currentUser);
     },
     updateUserStart: (state) => {
       state.loading = true;

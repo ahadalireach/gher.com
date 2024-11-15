@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getStorage,
   ref,

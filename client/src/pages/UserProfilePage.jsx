@@ -1,5 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useRef, useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   getDownloadURL,
@@ -9,9 +13,6 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 
-import Cookies from "js-cookie";
-
-import { Link, useNavigate } from "react-router-dom";
 import {
   updateUserStart,
   updateUserSuccess,
@@ -23,9 +24,8 @@ import {
   signoutSuccess,
   signoutFailure,
 } from "../redux/slices/userSlice";
-import { toast } from "react-toastify";
 
-const Profile = () => {
+const UserProfilePage = () => {
   const [file, setFile] = useState(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
 
@@ -212,13 +212,13 @@ const Profile = () => {
         }
       );
       const data = await res.json();
-      if (data.success === false) {
+      if (!res.ok) {
         dispatch(signoutFailure(data.message));
         toast.error(data.message);
         return;
       }
       dispatch(signoutSuccess(data));
-      toast.success("Signed out successfully!");
+      toast.success("Signed out successfully.");
     } catch (error) {
       dispatch(signoutFailure(error.message));
       toast.error(error.message);
@@ -241,10 +241,9 @@ const Profile = () => {
         }
       );
       const data = await res.json();
-
-      if (data.success === false) {
+      if (!res.ok) {
         setUserProperties([]);
-        toast.error("Error showing properties.");
+        toast.error(data.message);
         return;
       }
       setUserProperties(data);
@@ -565,4 +564,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfilePage;

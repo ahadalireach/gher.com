@@ -7,16 +7,31 @@ import jwt from "jsonwebtoken";
 export const signupUser = async (req, res, next) => {
   const { fullname, username, email, password } = req.body;
 
-  try {
-    if (password.length < 8) {
-      return next(
-        errorHandler(400, "Password must be at least 8 characters long!")
-      );
-    }
+  if (!fullname || !username || !email || !password)
+    return next(errorHandler(400, "All fields are required."));
 
+  if (/\s/.test(username) || /[-$]/.test(username) || /^\d/.test(username)) {
+    return next(
+      errorHandler(
+        400,
+        "Username cannot begin with a number, contain spaces, '-' or '$'."
+      )
+    );
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return next(errorHandler(400, "Invalid email format."));
+  }
+
+  if (password.length < 8)
+    return next(
+      errorHandler(400, "Password must be at least 8 characters long.")
+    );
+
+  try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return next(errorHandler(400, "Username or Email already exists!"));
+      return next(errorHandler(400, "Username or email already exists."));
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -28,9 +43,7 @@ export const signupUser = async (req, res, next) => {
     });
 
     await newUser.save();
-    res
-      .status(201)
-      .json({ success: true, message: "User created successfully!" });
+    res.status(201).json("Account created successfully.");
   } catch (error) {
     next(error);
   }
@@ -40,15 +53,21 @@ export const signupUser = async (req, res, next) => {
 export const signinUser = async (req, res, next) => {
   const { loginIdentifier, password } = req.body;
 
+  if (!loginIdentifier || !password)
+    return next(errorHandler(400, "Both fields are required."));
+
   try {
     const user = await User.findOne({
       $or: [{ username: loginIdentifier }, { email: loginIdentifier }],
     });
-    if (!user) return next(errorHandler(404, "User not found!"));
+    if (!user)
+      return next(
+        errorHandler(404, "User not found. Please check your credentials.")
+      );
 
     const isPasswordValid = bcryptjs.compareSync(password, user.password);
     if (!isPasswordValid)
-      return next(errorHandler(401, "Invalid credentials!"));
+      return next(errorHandler(401, "Invalid credentials."));
 
     if (user.isAdmin)
       return next(
@@ -107,7 +126,6 @@ export const google = async (req, res, next) => {
       .status(200)
       .json(userWithoutPassword);
   } catch (error) {
-    console.error("Google OAuth error:", error);
     next(error);
   }
 };
@@ -118,7 +136,7 @@ export const signoutUser = (req, res, next) => {
     const accessToken = req.cookies.access_token;
 
     res.clearCookie("access_token");
-    res.status(200).json("User signed out successfully!");
+    res.status(200).json("User signed out successfully.");
   } catch (error) {
     next(error);
   }

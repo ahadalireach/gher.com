@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { FaLinkedin, FaFacebook, FaInstagram, FaGithub } from "react-icons/fa";
 import emailjs from "emailjs-com";

@@ -1,6 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
+/* eslint-disable no-unused-vars */
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   adminSignoutStart,
   adminSignoutSuccess,
@@ -9,7 +11,6 @@ import {
   updateAdminSuccess,
   updateAdminFailure,
 } from "../redux/slices/adminSlice";
-import { Link, useNavigate } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -18,7 +19,7 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 
-const AdminProfile = () => {
+const AdminProfilePage = () => {
   const { currentAdmin, loading } = useSelector((state) => state.admin);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -129,34 +130,19 @@ const AdminProfile = () => {
         `${import.meta.env.VITE_BACKEND_URL}/admin/signout`,
         {
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
-      console.log(res);
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        dispatch(adminSignoutFailure(errorData.message));
-        toast.error(errorData.message || "Failed to sign out");
-        return;
-      }
-
       const data = await res.json();
-
-      if (!data.success) {
+      if (!res.ok) {
         dispatch(adminSignoutFailure(data.message));
         toast.error(data.message);
         return;
       }
-
-      dispatch(adminSignoutSuccess());
-      navigate("/");
-      toast.success("Signed out successfully!");
+      dispatch(adminSignoutSuccess(data));
+      toast.success("Signed out successfully.");
     } catch (error) {
       dispatch(adminSignoutFailure(error.message));
-      toast.error(error.message || "An unexpected error occurred");
+      toast.error(error.message);
     }
   };
 
@@ -265,4 +251,4 @@ const AdminProfile = () => {
   );
 };
 
-export default AdminProfile;
+export default AdminProfilePage;

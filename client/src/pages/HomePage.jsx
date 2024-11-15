@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { AboutUs, Focus, Hero, HomeProperties } from "../components";
 
-const Home = () => {
+const HomePage = () => {
   const [offerProperties, setOfferProperties] = useState([]);
   const [saleProperties, setSaleProperties] = useState([]);
   const [rentProperties, setRentProperties] = useState([]);
@@ -33,7 +34,9 @@ const Home = () => {
 
       const data = await response.json();
       setter(data);
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error.message || "Failed to fetch properties.");
+    }
   };
   useEffect(() => {
     fetchProperties("offer", setOfferProperties);
@@ -75,4 +78,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

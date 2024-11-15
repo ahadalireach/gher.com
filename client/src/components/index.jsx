@@ -1,6 +1,6 @@
 import Header from "./Header";
 import OAuth from "./OAuth";
-import PrivateRoute from "./PrivateRoute";
+import UserPrivateRoute from "./UserPrivateRoute";
 import SellerContact from "./SellerContact";
 import PropertyItem from "./PropertyItem";
 import Hero from "./Hero";
@@ -9,21 +9,23 @@ import HomeProperties from "./HomeProperties";
 import Focus from "./Focus";
 import Loader from "./Loader";
 import Footer from "./Footer";
-import AdminRoute from "./AdminRoute";
+import AdminPrivateRoute from "./AdminPrivateRoute";
 import PropertyPrivateRoute from "./PropertyPrivateRoute";
+import AuthForm from "./AuthForm";
 
 export {
+  Loader,
   Header,
+  Footer,
+  Hero,
+  AuthForm,
   OAuth,
-  PrivateRoute,
+  AboutUs,
+  Focus,
   SellerContact,
   PropertyItem,
-  Hero,
-  AboutUs,
   HomeProperties,
-  Focus,
-  Loader,
-  Footer,
-  AdminRoute,
+  UserPrivateRoute,
+  AdminPrivateRoute,
   PropertyPrivateRoute,
 };

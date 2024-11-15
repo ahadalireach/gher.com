@@ -1,8 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import emailjs from "emailjs-com";
 import { toast } from "react-toastify";
+import emailjs from "emailjs-com";
 
-const Contact = () => {
+const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -148,4 +150,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactPage;

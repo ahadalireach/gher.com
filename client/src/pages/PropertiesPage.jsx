@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader, PropertyItem } from "../components";
 
-const Properties = () => {
+const PropertiesPage = () => {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: "",
@@ -384,4 +384,4 @@ const Properties = () => {
     </div>
   );
 };
-export default Properties;
+export default PropertiesPage;

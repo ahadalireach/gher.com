@@ -1,29 +1,30 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import {
-  About,
-  SellProperty,
-  Home,
-  Profile,
-  Property,
-  Properties,
-  SignIn,
-  SignUp,
-  UpdateProperty,
-  AdminSignIn,
-  AdminDashboard,
+  HomePage,
+  SellPropertyPage,
+  AboutPage,
+  PropertyInfoPage,
+  PropertiesPage,
+  UserSignUpPage,
+  UserSignInPage,
+  UpdatePropertyPage,
+  AdminSignInPage,
+  AdminDashboardPage,
   ProfileInfo,
-  Contact,
-  AdminProfile,
+  ContactPage,
+  AdminProfilePage,
   UserProfileUpdate,
-  NotFound,
+  NotFoundPage,
   UserPropertyUpdate,
+  UserProfilePage,
 } from "./pages";
 import {
   Header,
   Footer,
-  PrivateRoute,
-  AdminRoute,
+  UserPrivateRoute,
+  AdminPrivateRoute,
   PropertyPrivateRoute,
 } from "./components";
 import { ToastContainer } from "react-toastify";
@@ -33,25 +34,26 @@ const App = () => {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/property/:id" element={<Property />} />
-        <Route path="/properties" element={<Properties />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />} />
-          <Route element={<PropertyPrivateRoute />}>
-            <Route path="/sell-property" element={<SellProperty />} />
-          </Route>
-          <Route path="/update-property/:id" element={<UpdateProperty />} />
-        </Route>
-        <Route path="/admin-signin" element={<AdminSignIn />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/sign-up" element={<UserSignUpPage />} />
+        <Route path="/sign-in" element={<UserSignInPage />} />
 
-        <Route element={<AdminRoute />}>
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          <Route path="/admin-profile" element={<AdminProfile />} />
+        <Route path="/property/:id" element={<PropertyInfoPage />} />
+        <Route path="/properties" element={<PropertiesPage />} />
+        <Route element={<UserPrivateRoute />}>
+          <Route path="/profile" element={<UserProfilePage />} />
+          <Route element={<PropertyPrivateRoute />}>
+            <Route path="/sell-property" element={<SellPropertyPage />} />
+          </Route>
+          <Route path="/update-property/:id" element={<UpdatePropertyPage />} />
+        </Route>
+        <Route path="/admin-signin" element={<AdminSignInPage />} />
+
+        <Route element={<AdminPrivateRoute />}>
+          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin-profile" element={<AdminProfilePage />} />
           <Route
             path="/admin/user-profile/update/:id"
             element={<UserProfileUpdate />}
@@ -62,7 +64,7 @@ const App = () => {
             element={<UserPropertyUpdate />}
           />
         </Route>
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
       <ToastContainer position="bottom-right" autoClose={2500} />

@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Link } from "react-router-dom";
 
-const NotFound = () => {
+const NotFoundPage = () => {
   return (
     <main className="flex flex-col items-center justify-center h-screen p-6 bg-gray-100">
       <div className="text-center">
@@ -21,4 +22,4 @@ const NotFound = () => {
     </main>
   );
 };
-export default NotFound;
+export default NotFoundPage;

@@ -1,4 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -6,11 +11,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
-const UpdateProperty = () => {
+const UpdatePropertyPage = () => {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -618,4 +620,4 @@ const UpdateProperty = () => {
   );
 };
 
-export default UpdateProperty;
+export default UpdatePropertyPage;

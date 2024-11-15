@@ -1,6 +1,6 @@
 import { AboutUs, Focus } from "../components";
 
-const About = () => {
+const AboutPage = () => {
   return (
     <div className="max-w-6xl mx-auto p-3 flex flex-col gap-0 my-10">
       <AboutUs />
@@ -8,4 +8,4 @@ const About = () => {
     </div>
   );
 };
-export default About;
+export default AboutPage;

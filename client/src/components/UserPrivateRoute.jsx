@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const PrivateRoute = () => {
+const UserPrivateRoute = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -15,4 +16,4 @@ const PrivateRoute = () => {
   return currentUser ? <Outlet /> : <Navigate to="/sign-in" />;
 };
 
-export default PrivateRoute;
+export default UserPrivateRoute;

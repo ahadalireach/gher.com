@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useSelector } from "react-redux";
 import { Outlet, Navigate } from "react-router-dom";
 
-const AdminRoute = () => {
+const AdminPrivateRoute = () => {
   const { currentAdmin } = useSelector((state) => state.admin);
 
   if (!currentAdmin) {
@@ -12,4 +13,4 @@ const AdminRoute = () => {
   return <Outlet />;
 };
 
-export default AdminRoute;
+export default AdminPrivateRoute;

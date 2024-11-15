@@ -46,15 +46,19 @@ import mongoose from "mongoose";
 export const signinAdmin = async (req, res, next) => {
   const { loginIdentifier, password } = req.body;
 
+  if (!loginIdentifier || !password)
+    return next(errorHandler(400, "Both fields are required."));
+
   try {
     const admin = await User.findOne({
       $or: [{ username: loginIdentifier }, { email: loginIdentifier }],
       isAdmin: true,
     });
-    if (!admin) return next(errorHandler(401, "Wrong credentials!"));
+    if (!admin) return next(errorHandler(401, "Invalid credentials."));
 
     const isPasswordValid = bcryptjs.compareSync(password, admin.password);
-    if (!isPasswordValid) return next(errorHandler(401, "Wrong credentials!"));
+    if (!isPasswordValid)
+      return next(errorHandler(401, "Invalid credentials."));
 
     const token = jwt.sign(
       { id: admin._id, isAdmin: admin.isAdmin },
@@ -65,9 +69,7 @@ export const signinAdmin = async (req, res, next) => {
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
-      .json({
-        ...adminWithoutPassword,
-      });
+      .json(adminWithoutPassword);
   } catch (error) {
     next(error);
   }
@@ -76,9 +78,7 @@ export const signinAdmin = async (req, res, next) => {
 export const signoutAdmin = async (req, res, next) => {
   try {
     res.clearCookie("access_token");
-    res
-      .status(200)
-      .json({ success: true, message: "Admin signed out successfully!" });
+    res.status(200).json("Admin signed out successfully.");
   } catch (error) {
     next(error);
   }

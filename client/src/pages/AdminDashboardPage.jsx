@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-const AdminDashboard = () => {
+const AdminDashboardPage = () => {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
@@ -11,6 +11,9 @@ const AdminDashboard = () => {
         `${import.meta.env.VITE_BACKEND_URL}/admin/users`,
         {
           credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       const data = await res.json();
@@ -40,7 +43,7 @@ const AdminDashboard = () => {
       }
 
       setUsers(users.filter((user) => user._id !== userId));
-      toast.success("User deleted successfully!");
+      toast.success("User deleted successfully.");
     } catch (error) {
       toast.error("Error deleting user.");
     }
@@ -112,4 +115,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboardPage;
