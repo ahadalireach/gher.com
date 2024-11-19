@@ -7,14 +7,25 @@ import jwt from "jsonwebtoken";
 export const signupUser = async (req, res, next) => {
   const { fullname, username, email, password } = req.body;
 
-  if (!fullname || !username || !email || !password)
+  if (!fullname || !username || !email || !password) {
     return next(errorHandler(400, "All fields are required."));
+  }
 
-  if (/\s/.test(username) || /[-$]/.test(username) || /^\d/.test(username)) {
+  if (!/^[a-zA-Z\s]+$/.test(fullname)) {
+    return next(
+      errorHandler(400, "Fullname can only contain alphabets and spaces.")
+    );
+  }
+
+  if (
+    /^\d/.test(username) ||
+    /[^a-zA-Z0-9.]/.test(username) ||
+    /\s/.test(username)
+  ) {
     return next(
       errorHandler(
         400,
-        "Username cannot begin with a number, contain spaces, '-' or '$'."
+        "Username cannot begin with a number, contain spaces, or include invalid characters."
       )
     );
   }
@@ -23,10 +34,11 @@ export const signupUser = async (req, res, next) => {
     return next(errorHandler(400, "Invalid email format."));
   }
 
-  if (password.length < 8)
+  if (password.length < 8) {
     return next(
       errorHandler(400, "Password must be at least 8 characters long.")
     );
+  }
 
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -35,6 +47,7 @@ export const signupUser = async (req, res, next) => {
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
+
     const newUser = new User({
       fullname,
       username,

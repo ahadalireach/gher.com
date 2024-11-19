@@ -8,8 +8,15 @@ import {
   UserSignUp,
   UserSignIn,
   UserProfile,
+  SellProperty,
+  PropertyInfo,
 } from "./pages";
-import { Footer, Header, UserPrivateRoute } from "./components";
+import {
+  Footer,
+  Header,
+  PropertyPrivateRoute,
+  UserPrivateRoute,
+} from "./components";
 
 const App = () => {
   return (
@@ -22,11 +29,15 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/sign-up" element={<UserSignUp />} />
         <Route path="/sign-in" element={<UserSignIn />} />
+        <Route path="/property/:id" element={<PropertyInfo />} />
         <Route path="*" element={<NotFound />} />
 
         {/********* User Related Pages **************/}
         <Route element={<UserPrivateRoute />}>
           <Route path="/profile" element={<UserProfile />} />
+          <Route element={<PropertyPrivateRoute />}>
+            <Route path="/sell-property" element={<SellProperty />} />
+          </Route>
         </Route>
       </Routes>
       <Footer />

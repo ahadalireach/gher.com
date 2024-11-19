@@ -7,44 +7,58 @@ export const updateUser = async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return next(errorHandler(400, "Invalid user ID format."));
+    return next(
+      errorHandler(400, "Invalid user id, try again with valid user id.")
+    );
   }
 
   if (req.user.id !== id) {
     return next(errorHandler(401, "You can only update your own account."));
   }
 
+  const {
+    fullname,
+    username,
+    email,
+    password,
+    avatar,
+    facebook,
+    linkedin,
+    instagram,
+    whatsappno,
+    localno,
+  } = req.body;
+
+  if (!/^[a-zA-Z\s]+$/.test(fullname)) {
+    return next(
+      errorHandler(400, "Fullname can only contain alphabets and spaces.")
+    );
+  }
+
+  if (
+    /^\d/.test(username) ||
+    /[^a-zA-Z0-9.]/.test(username) ||
+    /\s/.test(username)
+  ) {
+    return next(
+      errorHandler(
+        400,
+        "Username cannot begin with a number, contain spaces, or include invalid characters."
+      )
+    );
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return next(errorHandler(400, "Invalid email format."));
+  }
+
   try {
-    const {
-      fullname,
-      username,
-      email,
-      password,
-      avatar,
-      facebook,
-      linkedin,
-      instagram,
-      whatsappno,
-      localno,
-    } = req.body;
-
-    if (/\s/.test(username) || /[-$]/.test(username) || /^\d/.test(username)) {
-      return next(
-        errorHandler(
-          400,
-          "Username cannot begin with a number, contain spaces, '-' or '$'."
-        )
-      );
-    }
-
     const existingUser = await User.findById(id);
-
     if (!existingUser) {
       return next(errorHandler(400, "User not found."));
     }
 
     const lowercaseUsername = username ? username.toLowerCase() : undefined;
-
     if (lowercaseUsername && lowercaseUsername !== existingUser.username) {
       const usernameExists = await User.findOne({
         username: lowercaseUsername,
@@ -62,7 +76,6 @@ export const updateUser = async (req, res, next) => {
     }
 
     const countryCodePattern = /^\+\d+/;
-
     if (
       (localno &&
         (!countryCodePattern.test(localno) ||
@@ -73,21 +86,35 @@ export const updateUser = async (req, res, next) => {
           whatsappno.length < 6 ||
           whatsappno.length > 15))
     ) {
-      return next(errorHandler(401, "Please enter a valid country code."));
+      return next(
+        errorHandler(
+          400,
+          "Please enter a valid country code for contact numbers."
+        )
+      );
     }
 
-    if (password) {
-      req.body.password = bcryptjs.hashSync(password, 10);
+    if (
+      (facebook === "" ||
+        linkedin === "" ||
+        instagram === "" ||
+        whatsappno === "" ||
+        localno === "") &&
+      (existingUser.facebook ||
+        existingUser.linkedin ||
+        existingUser.instagram ||
+        existingUser.whatsappno ||
+        existingUser.localno)
+    ) {
+      return next(
+        errorHandler(
+          400,
+          "You cannot clear fields that already have values. Please provide valid data."
+        )
+      );
     }
 
-    const allFieldsProvided = [
-      facebook,
-      linkedin,
-      instagram,
-      whatsappno,
-      localno,
-    ].every(Boolean);
-    const isUpdated = allFieldsProvided;
+    if (password) req.body.password = bcryptjs.hashSync(password, 10);
 
     const updates = {
       fullname: fullname || undefined,
@@ -95,12 +122,11 @@ export const updateUser = async (req, res, next) => {
       email: email || undefined,
       password: req.body.password || undefined,
       avatar: avatar || undefined,
-      facebook: facebook || undefined,
-      linkedin: linkedin || undefined,
-      instagram: instagram || undefined,
-      whatsappno: whatsappno || undefined,
-      localno: localno || undefined,
-      isUpdated,
+      facebook: facebook || existingUser.facebook,
+      linkedin: linkedin || existingUser.linkedin,
+      instagram: instagram || existingUser.instagram,
+      whatsappno: whatsappno || existingUser.whatsappno,
+      localno: localno || existingUser.localno,
     };
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -122,7 +148,9 @@ export const deleteUser = async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json("Invalid user ID format.");
+    return res
+      .status(400)
+      .json("Invalid user id, try again with valid user id.");
   }
 
   if (req.user.id !== id) {
@@ -130,10 +158,11 @@ export const deleteUser = async (req, res, next) => {
   }
 
   try {
+    await Property.deleteMany({ userRef: id });
     await User.findByIdAndDelete(id);
     res.clearCookie("access_token");
     res.status(200).json({
-      message: "User deleted successfully.",
+      message: "User and associated properties deleted successfully.",
     });
   } catch (error) {
     next(error);
@@ -144,7 +173,9 @@ export const getUser = async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return next(errorHandler(400, "Invalid user ID format."));
+    return next(
+      errorHandler(400, "Invalid user id, try again with valid user id.")
+    );
   }
 
   try {

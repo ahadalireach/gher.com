@@ -9,4 +9,18 @@ import UserSignUp from "./UserSignUp";
 // **************** User Related Pages *********************** //
 import UserProfile from "./UserProfile";
 
-export { Home, About, Contact, NotFound, UserSignIn, UserSignUp, UserProfile };
+// *************** Property Related Pages ******************** //
+import PropertyInfo from "./PropertyInfo";
+import SellProperty from "./SellProperty";
+
+export {
+  Home,
+  About,
+  Contact,
+  NotFound,
+  UserSignIn,
+  UserSignUp,
+  PropertyInfo,
+  UserProfile,
+  SellProperty,
+};

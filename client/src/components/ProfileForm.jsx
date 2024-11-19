@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { FileUpload } from ".";
+import { Link } from "react-router-dom";
 
 const ProfileForm = ({
   onSubmit,
@@ -34,6 +35,7 @@ const ProfileForm = ({
       [e.target.id]: e.target.value,
     });
   };
+
   const handleCheckboxChange = (e) => {
     setHideWhatsapp(e.target.checked);
   };
@@ -42,14 +44,9 @@ const ProfileForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const updatedFormData = {
-      ...formData,
-      whatsappno: hideWhatsapp ? formData.localno : formData.whatsappno,
-    };
-
     try {
       setLoading(true);
-      await onSubmit(updatedFormData);
+      await onSubmit(formData);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -187,7 +184,7 @@ const ProfileForm = ({
             </label>
             <input
               type="text"
-              placeholder="Facebook URL"
+              placeholder="Facebook username"
               id="facebook"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 outline-none focus:border-green-700"
               value={formData.facebook}
@@ -204,7 +201,7 @@ const ProfileForm = ({
             </label>
             <input
               type="text"
-              placeholder="LinkedIn URL"
+              placeholder="Linkedin username"
               id="linkedin"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 outline-none focus:border-green-700"
               value={formData.linkedin}
@@ -221,7 +218,7 @@ const ProfileForm = ({
             </label>
             <input
               type="text"
-              placeholder="Instagram URL"
+              placeholder="Instagram username"
               id="instagram"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 outline-none focus:border-green-700"
               value={formData.instagram}
@@ -237,6 +234,15 @@ const ProfileForm = ({
         className="w-full bg-green-600 text-white py-3 mt-7 rounded-lg hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 font-semibold"
       >
         {loading ? "Updating..." : "Update Profile"}
+      </button>
+
+      <button
+        type="button"
+        className="w-full bg-green-600 text-white py-3 mt-3 rounded-lg hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 font-semibold"
+      >
+        <Link to="/sell-property" className="block w-full h-full">
+          Sell Property
+        </Link>
       </button>
 
       <div className="flex justify-between mt-5">
