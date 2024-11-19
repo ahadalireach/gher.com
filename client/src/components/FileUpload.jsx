@@ -16,6 +16,7 @@ const FileUpload = ({ formData, onFileUploaded }) => {
   const fileRef = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
 
+  // ********* Handle File Upload ********* //
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;

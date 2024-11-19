@@ -27,17 +27,18 @@ const ProfileForm = ({
     }
   }, [formData?.localno, formData?.whatsappno]);
 
+  // ********* Handle Form Changes ********* //
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
     });
   };
-
   const handleCheckboxChange = (e) => {
     setHideWhatsapp(e.target.checked);
   };
 
+  // ********* Handle Form Submit ********* //
   const handleSubmit = async (e) => {
     e.preventDefault();
 

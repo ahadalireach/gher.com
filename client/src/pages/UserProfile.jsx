@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ProfileForm } from "../components";
 import { toast } from "react-toastify";
+import { ProfileForm } from "../components";
 import {
   updateUserSuccess,
   signoutSuccess,

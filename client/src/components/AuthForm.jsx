@@ -17,11 +17,13 @@ const AuthForm = ({ type, onSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // ********* Handle Form Changes ********* //
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
+  // ********* Handle Form Submit ********* //
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
