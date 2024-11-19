@@ -51,7 +51,7 @@ const AuthForm = ({ type, onSubmit }) => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="p-6 max-w-md w-full bg-white shadow-lg rounded-lg border border-gray-200">
+      <div className="p-6 max-w-md w-full bg-white shadow-lg sm:rounded-lg border border-gray-200">
         <h1 className="text-3xl font-semibold text-green-700 my-6 text-center">
           {type === "signup" ? "Sign Up" : "Sign In"}
         </h1>

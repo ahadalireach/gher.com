@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import connectDB from "./db/db.js";
 import authRouter from "./routes/authRoutes.js";
-
+import userRouter from "./routes/userRoutes.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
