@@ -10,8 +10,10 @@ import UserSignUp from "./UserSignUp";
 import UserProfile from "./UserProfile";
 
 // *************** Property Related Pages ******************** //
+import Properties from "./Properties";
 import PropertyInfo from "./PropertyInfo";
 import SellProperty from "./SellProperty";
+import UpdateProperty from "./UpdateProperty";
 
 export {
   Home,
@@ -20,7 +22,9 @@ export {
   NotFound,
   UserSignIn,
   UserSignUp,
+  Properties,
   PropertyInfo,
   UserProfile,
   SellProperty,
+  UpdateProperty,
 };

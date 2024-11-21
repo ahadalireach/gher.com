@@ -61,11 +61,16 @@ const PropertyDetails = ({ property }) => {
         <div className="flex items-center text-green-800 font-semibold mb-2 bg-green-200 px-4 py-2 max-w-max ">
           <div className="flex">
             <h6 className="text-xl  mb-1">
-              Rs: {/* */}
+              Rs:{" "}
               {property.offer
-                ? property.discountPrice.toLocaleString("en-US")
-                : property.regularPrice.toLocaleString("en-US")}
+                ? property.discountPrice
+                  ? property.discountPrice.toLocaleString("en-US")
+                  : "0"
+                : property.regularPrice
+                ? property.regularPrice.toLocaleString("en-US")
+                : "0"}
             </h6>
+
             {property.purpose === "rent" && (
               <span className="text-lg font-semibold ml-1"> / month</span>
             )}

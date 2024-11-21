@@ -10,7 +10,7 @@ import {
 import { app } from "../firebase";
 import { toast } from "react-toastify";
 
-const PropertyForm = ({ initialFormData, onSubmit }) => {
+const PropertyForm = ({ type, initialFormData, onSubmit }) => {
   const [formData, setFormData] = useState(
     initialFormData || {
       imageUrls: [],
@@ -169,9 +169,6 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
               placeholder="Title"
               className="border rounded-lg p-4 w-full border-gray-300 outline-none focus:border-green-700"
               id="title"
-              maxLength="100"
-              minLength="10"
-              required
             />
             <textarea
               onChange={handleChange}
@@ -179,7 +176,6 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
               placeholder="Description"
               className="border rounded-lg p-4 w-full border-gray-300 outline-none focus:border-green-700"
               id="description"
-              required
               rows={3}
             />
             <div className="flex flex-col sm:flex-row sm:space-x-4">
@@ -190,7 +186,6 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
                 placeholder="Area"
                 className="w-full border rounded-lg p-4 border-gray-300 outline-none focus:border-green-700"
                 id="area"
-                required
               />
               <input
                 onChange={handleChange}
@@ -199,7 +194,6 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
                 placeholder="Address"
                 className="w-full border rounded-lg p-4 border-gray-300 outline-none focus:border-green-700"
                 id="address"
-                required
               />
             </div>
             <div>
@@ -208,7 +202,6 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
                 onChange={handleChange}
                 value={formData.type}
                 id="type"
-                required
               >
                 <option value="house">House</option>
                 <option value="flat">Flat</option>
@@ -325,28 +318,28 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
                   id: "floors",
                   value: formData.floors,
                   min: 1,
-                  max: 10,
+                  max: 15,
                 },
                 {
                   label: "Beds",
                   id: "bedrooms",
                   value: formData.bedrooms,
                   min: 1,
-                  max: 10,
+                  max: 20,
                 },
                 {
                   label: "Baths",
                   id: "bathrooms",
                   value: formData.bathrooms,
                   min: 1,
-                  max: 10,
+                  max: 20,
                 },
                 {
                   label: "Kitchens",
                   id: "kitchens",
                   value: formData.kitchens,
                   min: 1,
-                  max: 10,
+                  max: 20,
                 },
               ].map((input) => (
                 <div key={input.id} className="flex items-center gap-2">
@@ -357,7 +350,6 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
                     onChange={handleChange}
                     min={input.min}
                     max={input.max}
-                    required
                     className="border rounded-lg p-3 border-gray-300 outline-none focus:border-green-700 w-24"
                   />
                   <p className="text-sm font-semibold">{input.label}</p>
@@ -372,9 +364,8 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
                   value={formData.regularPrice}
                   type="number"
                   id="regularPrice"
-                  min="50"
+                  min="0"
                   max="10000000"
-                  required
                   className="border rounded-lg p-4 border-gray-300 outline-none focus:border-green-700 w-fit"
                 />
                 <div className="flex flex-col">
@@ -391,9 +382,8 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
                     value={formData.discountPrice}
                     type="number"
                     id="discountPrice"
-                    min="50"
+                    min="0"
                     max="10000000"
-                    required
                     className="border rounded-lg p-4 border-gray-300 outline-none focus:border-green-700 w-fit"
                   />
                   <div className="flex flex-col">
@@ -467,7 +457,13 @@ const PropertyForm = ({ initialFormData, onSubmit }) => {
               : "bg-green-700 hover:bg-green-800"
           }`}
         >
-          {submitLoading ? "Submitting..." : "Sell Property"}
+          {submitLoading
+            ? type === "create"
+              ? "Creating..."
+              : "Updating..."
+            : type === "create"
+            ? "Sell Property"
+            : "Update Property"}
         </button>
       </form>
     </main>

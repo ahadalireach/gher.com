@@ -74,8 +74,8 @@ const SellerInfo = ({ property, onError }) => {
       propertyBedrooms: property.bedrooms,
       propertyBathrooms: property.bathrooms,
       propertyPrice: property.offer
-        ? property.discountPrice.toLocaleString("en-US")
-        : property.regularPrice.toLocaleString("en-US"),
+        ? (property.discountPrice || 0).toLocaleString("en-US")
+        : (property.regularPrice || 0).toLocaleString("en-US"),
       propertyDescription: property.description,
       sellerName: sellerInfo?.fullname,
       sellerEmail: sellerInfo?.email,
@@ -170,8 +170,8 @@ const SellerInfo = ({ property, onError }) => {
             }&text=${encodeURIComponent(
               `Hi, I am interested in your ${property.title} listed at ${
                 property.offer
-                  ? property.discountPrice.toLocaleString("en-US")
-                  : property.regularPrice.toLocaleString("en-US")
+                  ? (property.discountPrice || 0).toLocaleString("en-US")
+                  : (property.regularPrice || 0).toLocaleString("en-US")
               } for sale in ${property.address}.`
             )}`}
             target="_blank"

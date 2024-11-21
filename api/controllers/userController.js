@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import { User } from "../models/userModel.js";
-import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
+import { User } from "../models/userModel.js";
+import { Property } from "../models/propertyModel.js";
+import { errorHandler } from "../utils/error.js";
 
 export const updateUser = async (req, res, next) => {
   const { id } = req.params;
@@ -116,6 +117,15 @@ export const updateUser = async (req, res, next) => {
 
     if (password) req.body.password = bcryptjs.hashSync(password, 10);
 
+    const allFieldsProvided = [
+      facebook,
+      linkedin,
+      instagram,
+      whatsappno,
+      localno,
+    ].every(Boolean);
+    const isUpdated = allFieldsProvided;
+
     const updates = {
       fullname: fullname || undefined,
       username: lowercaseUsername || undefined,
@@ -127,6 +137,7 @@ export const updateUser = async (req, res, next) => {
       instagram: instagram || existingUser.instagram,
       whatsappno: whatsappno || existingUser.whatsappno,
       localno: localno || existingUser.localno,
+      isUpdated,
     };
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -184,6 +195,27 @@ export const getUser = async (req, res, next) => {
 
     const { password: _, ...userWithoutPassword } = user._doc;
     res.status(200).json(userWithoutPassword);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserProperties = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res
+      .status(400)
+      .json("Invalid user id, try again with valid user id.");
+  }
+
+  if (req.user.id !== id) {
+    return next(errorHandler(401, "You can only access your own properties."));
+  }
+
+  try {
+    const properties = await Property.find({ userRef: id });
+    res.status(200).json(properties);
   } catch (error) {
     next(error);
   }

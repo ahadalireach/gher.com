@@ -6,25 +6,26 @@ import { aboutImage1, aboutImage2 } from "../assets";
 const aboutData = [
   {
     id: 1,
-    icon: <FaHome />,
+    icon: <FaHome className="text-green-700 w-6 h-6" />,
     text: "Modern Home Designs",
   },
   {
     id: 2,
-    icon: <FaMountain />,
+    icon: <FaMountain className="text-green-700 w-6 h-6" />,
     text: "Beautiful, Peaceful Locations",
   },
   {
     id: 3,
-    icon: <FaHeart />,
+    icon: <FaHeart className="text-green-700 w-6 h-6" />,
     text: "Comfortable Living Spaces",
   },
   {
     id: 4,
-    icon: <FaHandshake />,
+    icon: <FaHandshake className="text-green-700 w-6 h-6" />,
     text: "Friendly and Trustworthy Service",
   },
 ];
+
 const AboutUs = () => {
   return (
     <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
@@ -61,17 +62,14 @@ const AboutUs = () => {
             </div>
 
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-500">
-              {aboutData.map((data) => {
-                const { id, icon, text } = data;
-                return (
-                  <li className="flex items-center" key={id}>
-                    <div className="bg-green-100 p-2 rounded-full mr-3 flex items-center justify-center">
-                      <FaHome className="text-green-700 w-6 h-6" />
-                    </div>
-                    {text}
-                  </li>
-                );
-              })}
+              {aboutData.map(({ id, icon, text }) => (
+                <li className="flex items-center" key={id}>
+                  <div className="bg-green-100 p-2 rounded-full mr-3 flex items-center justify-center">
+                    {icon}
+                  </div>
+                  {text}
+                </li>
+              ))}
             </ul>
 
             <div className="bg-green-100 p-6 mt-8 border-l-4 border-green-700">

@@ -11,7 +11,7 @@ const SellProperty = () => {
   const handleSubmit = async (formData) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/properties/create`,
+        `${import.meta.env.VITE_BACKEND_URL}/properties/create-property`,
         {
           method: "POST",
           credentials: "include",

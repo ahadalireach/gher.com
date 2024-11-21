@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { FileUpload } from ".";
+import { ConfirmationModal, FileUpload } from ".";
 import { Link } from "react-router-dom";
 
 const ProfileForm = ({
@@ -44,18 +44,22 @@ const ProfileForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
-      await onSubmit(formData);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      toast.error(error.message);
-    }
+    setLoading(true);
+    await onSubmit(formData);
+    setLoading(false);
   };
 
   const handleDeleteConfirmation = () => {
     setShowDeleteConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    handleDeleteUser();
+    setShowDeleteConfirmation(false);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
   };
 
   const handleFileUploaded = (downloadURL) => {
@@ -260,36 +264,12 @@ const ProfileForm = ({
         </span>
       </div>
 
-      {showDeleteConfirmation && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-          <div className="bg-white m-5 sm:rounded-lg shadow-lg max-w-md w-full">
-            <div className="p-8">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="sm:text-lg font-semibold text-gray-700 text-center">
-                  Are you sure you want to delete your account?
-                </h2>
-              </div>
-              <div className="flex justify-center space-x-4">
-                <button
-                  onClick={() => setShowDeleteConfirmation(false)}
-                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none"
-                >
-                  No
-                </button>
-                <button
-                  onClick={() => {
-                    handleDeleteUser();
-                    setShowDeleteConfirmation(false);
-                  }}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 focus:outline-none"
-                >
-                  Yes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={showDeleteConfirmation}
+        title="Are you sure you want to delete your account?"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </form>
   );
 };

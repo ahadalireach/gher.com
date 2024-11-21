@@ -10,6 +10,8 @@ import {
   UserProfile,
   SellProperty,
   PropertyInfo,
+  UpdateProperty,
+  Properties,
 } from "./pages";
 import {
   Footer,
@@ -30,6 +32,7 @@ const App = () => {
         <Route path="/sign-up" element={<UserSignUp />} />
         <Route path="/sign-in" element={<UserSignIn />} />
         <Route path="/property/:id" element={<PropertyInfo />} />
+        <Route path="/properties" element={<Properties />} />
         <Route path="*" element={<NotFound />} />
 
         {/********* User Related Pages **************/}
@@ -37,6 +40,7 @@ const App = () => {
           <Route path="/profile" element={<UserProfile />} />
           <Route element={<PropertyPrivateRoute />}>
             <Route path="/sell-property" element={<SellProperty />} />
+            <Route path="/update-property/:id" element={<UpdateProperty />} />
           </Route>
         </Route>
       </Routes>

@@ -7,7 +7,7 @@ const focusData = [
     title: "Buy Your Dream Home",
     description:
       "Browse through many homes to find the one that's perfect for you and your family. We're here to assist you at every step.",
-    url: "",
+    url: "/properties?searchTerm=&purpose=sell",
     urlName: "Explore Properties",
     icon: FaHome,
   },
@@ -16,7 +16,7 @@ const focusData = [
     title: "Rent a Cozy Home",
     description:
       "Find rental homes that fit your needs. Whether you need something for a short stay or a long time, we have options for you.",
-    url: "",
+    url: "/properties?searchTerm=&purpose=rent",
     urlName: "Find Rental Options",
     icon: FaRss,
   },
@@ -25,7 +25,7 @@ const focusData = [
     title: "Sell Your Property",
     description:
       "Looking to sell? We can help you sell your home quickly and for a good price. We'll be with you through the whole process.",
-    url: "",
+    url: "/sell-property",
     urlName: "Start Selling",
     icon: FaDollarSign,
   },
