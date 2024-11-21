@@ -201,7 +201,7 @@ const UserProfilePage = () => {
         </button>
       </div>
       {propertiesShown && userProperties.length === 0 ? (
-        <h1 className="text-center mt-7 text-xl font-semibold">
+        <h1 className="text-center mt-7 text-xl font-semibold text-gray-700 bg-yellow-100 p-4 mb-5 rounded-lg shadow-md border-2 border-yellow-300">
           No Property Found!
         </h1>
       ) : (

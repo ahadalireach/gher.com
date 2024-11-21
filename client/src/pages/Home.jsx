@@ -67,9 +67,9 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  const errorMessages = Object.entries(errors)
-    .filter(([, hasError]) => hasError)
-    .map(([type]) => `Failed to load ${type} properties.`);
+  //   const errorMessages = Object.entries(errors)
+  //     .filter(([, hasError]) => hasError)
+  //     .map(([type]) => `Failed to load ${type} properties.`);
 
   const allTypesHaveErrors = Object.values(errors).every(
     (hasError) => hasError
@@ -103,10 +103,10 @@ const HomePage = () => {
                   key={type}
                   title={
                     type === "offer"
-                      ? "Recent Offers"
+                      ? "Recent Properties with Offers"
                       : type === "rent"
-                      ? "Recent Rental Places"
-                      : "Recent Places for Sale"
+                      ? "Recent Properties for Rent"
+                      : "Recent Properties for Sale"
                   }
                   properties={properties[type]}
                   url={

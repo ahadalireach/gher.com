@@ -5,9 +5,14 @@ import Contact from "./Contact";
 import NotFound from "./Error";
 import UserSignIn from "./UserSignIn";
 import UserSignUp from "./UserSignUp";
+import AdminSignIn from "./AdminSignIn";
 
 // **************** User Related Pages *********************** //
 import UserProfile from "./UserProfile";
+
+// **************** Admin Related Pages *********************** //
+import AdminProfile from "./AdminProfile";
+import AdminDashboard from "./AdminDashboard";
 
 // *************** Property Related Pages ******************** //
 import Properties from "./Properties";
@@ -22,9 +27,12 @@ export {
   NotFound,
   UserSignIn,
   UserSignUp,
+  AdminSignIn,
+  UserProfile,
+  AdminProfile,
+  AdminDashboard,
   Properties,
   PropertyInfo,
-  UserProfile,
   SellProperty,
   UpdateProperty,
 };

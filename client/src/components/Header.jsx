@@ -9,6 +9,7 @@ const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  const { currentAdmin } = useSelector((state) => state.admin);
   const navigate = useNavigate();
 
   const handleSearchSubmit = (e) => {
@@ -129,7 +130,7 @@ const Header = () => {
                   </li>
                 </>
               )}
-              {!currentUser && (
+              {!currentUser && !currentAdmin && (
                 <li>
                   <Link
                     to="/sign-in"
@@ -139,6 +140,32 @@ const Header = () => {
                     Sign In
                   </Link>
                 </li>
+              )}
+              {currentAdmin && (
+                <>
+                  <li className="hidden sm:block">
+                    <Link
+                      to="/admin-profile"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <img
+                        src={currentAdmin.avatar}
+                        alt="Admin Profile"
+                        className="rounded-full h-8 w-8 object-cover border-2 border-green-600"
+                      />
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/admin-profile"
+                      onClick={() => setMenuOpen(false)}
+                      className="block sm:hidden text-green-600 hover:text-green-700 transition-colors"
+                    >
+                      Admin Profile
+                    </Link>
+                  </li>
+                </>
               )}
             </ul>
           </div>

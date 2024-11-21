@@ -37,7 +37,7 @@ const FileUpload = ({ formData, onFileUploaded }) => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((downloadURL) => {
             onFileUploaded(downloadURL);
-            toast.success("Image uploaded to cloud successfully!");
+            toast.success("Image uploaded to cloud successfully.");
           })
           .catch(() => {
             toast.error("Failed to get image URL. Please try again.");

@@ -7,13 +7,17 @@ import {
   NotFound,
   UserSignUp,
   UserSignIn,
+  AdminSignIn,
   UserProfile,
   SellProperty,
   PropertyInfo,
   UpdateProperty,
   Properties,
+  AdminDashboard,
+  AdminProfile,
 } from "./pages";
 import {
+  AdminPrivateRoute,
   Footer,
   Header,
   PropertyPrivateRoute,
@@ -31,6 +35,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/sign-up" element={<UserSignUp />} />
         <Route path="/sign-in" element={<UserSignIn />} />
+        <Route path="/admin-signin" element={<AdminSignIn />} />
         <Route path="/property/:id" element={<PropertyInfo />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="*" element={<NotFound />} />
@@ -42,6 +47,12 @@ const App = () => {
             <Route path="/sell-property" element={<SellProperty />} />
             <Route path="/update-property/:id" element={<UpdateProperty />} />
           </Route>
+        </Route>
+
+        {/********* Admin Related Pages **************/}
+        <Route element={<AdminPrivateRoute />}>
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin-profile" element={<AdminProfile />} />
         </Route>
       </Routes>
       <Footer />

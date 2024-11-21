@@ -82,6 +82,11 @@ export const signinUser = async (req, res, next) => {
     if (!isPasswordValid)
       return next(errorHandler(401, "Invalid credentials."));
 
+    if (user.isAdmin)
+      return next(
+        errorHandler(403, "Admins cannot log in through this route.")
+      );
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     const { password: _, ...userWithoutPassword } = user._doc;
 

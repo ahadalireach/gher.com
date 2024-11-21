@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 
 const SomethingWrong = ({ isHome, title, subtitle, description }) => {
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
+    <main
+      className={`flex flex-col items-center justify-center h-screen ${
+        isHome && "bg-gray-50"
+      }`}
+    >
       <div className="text-center">
         {title && (
           <h1 className="text-6xl font-bold text-green-700 mb-4">{title}</h1>

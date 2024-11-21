@@ -20,7 +20,7 @@ const HomeProperties = ({ title, properties, url }) => {
           to={url}
           className="inline-block bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-green-800 transition-colors"
         >
-          View All Offers
+          View All {title}
         </Link>
       </div>
     </div>

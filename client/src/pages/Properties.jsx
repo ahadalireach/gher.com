@@ -191,8 +191,8 @@ const Properties = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row lg:space-x-6 mx-auto gap-6">
-      <div className="w-full md:w-4/12 p-7 border-b-2 md:border-r-2 lg:min-h-screen lg:sticky lg:top-0 lg:h-screen overflow-auto">
+    <div className="flex flex-col md:flex-row lg:space-x-6 mx-auto gap-2">
+      <div className="w-full md:w-4/12 p-5 border-b-2 md:border-r-2 lg:min-h-screen lg:sticky lg:top-0 lg:h-screen overflow-auto">
         <PropertyFilter
           sidebardata={sidebardata}
           handleChange={handleChange}

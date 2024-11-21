@@ -10,11 +10,12 @@ import ContactForm from "./ContactForm";
 import SomethingWrong from "./SomthingWrong";
 import ConfirmationModal from "./ConfirmationModal";
 
-// ************* User Related Components ******************* //
+// ************* User + Admin Related Components ******************* //
 import OAuth from "./OAuth";
 import AuthForm from "./AuthForm";
 import FileUpload from "./FileUpload";
 import ProfileForm from "./ProfileForm";
+import UserCard from "./UserCard";
 
 // ************* Property Related Components *************** //
 import HomeProperties from "./HomeProperties";
@@ -28,6 +29,7 @@ import UserPropertyItem from "./UserPropertyItem";
 
 // *************** PriavteRoute Components **************** //
 import UserPrivateRoute from "./UserPrivateRoute";
+import AdminPrivateRoute from "./AdminPrivateRoute";
 import PropertyPrivateRoute from "./PropertyPrivateRoute";
 
 export {
@@ -45,6 +47,7 @@ export {
   AuthForm,
   FileUpload,
   ProfileForm,
+  UserCard,
   HomeProperties,
   PropertyItem,
   SellerInfo,
@@ -54,5 +57,6 @@ export {
   PropertyDetails,
   UserPropertyItem,
   UserPrivateRoute,
+  AdminPrivateRoute,
   PropertyPrivateRoute,
 };

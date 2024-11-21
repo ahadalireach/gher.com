@@ -55,7 +55,11 @@ const AuthForm = ({ type, onSubmit }) => {
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="p-6 max-w-md w-full bg-white shadow-lg sm:rounded-lg border border-gray-200">
         <h1 className="text-3xl font-semibold text-green-700 my-6 text-center">
-          {type === "signup" ? "Sign Up" : "Sign In"}
+          {type === "signup"
+            ? "Sign Up"
+            : type === "admin"
+            ? "Admin Login"
+            : "Sign In"}
         </h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {type === "signup" && (
@@ -111,13 +115,15 @@ const AuthForm = ({ type, onSubmit }) => {
           >
             {loading ? "Loading..." : type === "signup" ? "Sign Up" : "Sign In"}
           </button>
-          <OAuth />
+          {type !== "admin" && <OAuth />}
         </form>
         <div className="flex items-center justify-between mt-8">
           <div className="flex items-center gap-2">
             <p className="text-gray-600">
               {type === "signup"
                 ? "Have an account?"
+                : type === "admin"
+                ? "Want to explore as user?"
                 : "Don't have an account?"}
             </p>
             <Link
@@ -129,6 +135,14 @@ const AuthForm = ({ type, onSubmit }) => {
               </span>
             </Link>
           </div>
+          {type !== "admin" && (
+            <Link
+              to="/admin-signin"
+              className="text-red-700 hover:text-red-600 transition duration-200 group"
+            >
+              Admin
+            </Link>
+          )}
         </div>
       </div>
     </div>
