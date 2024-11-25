@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { Property } from "../models/propertyModel.js";
 import { errorHandler } from "../utils/error.js";
 
-export const createProperty = async (req, res, next) => {
+export const createNewProperty = async (req, res, next) => {
   try {
     const {
       title,
@@ -70,29 +70,7 @@ export const createProperty = async (req, res, next) => {
   }
 };
 
-export const viewProperty = async (req, res, next) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return next(
-      errorHandler(
-        400,
-        "Invalid property id, try again with valid property id."
-      )
-    );
-  }
-
-  try {
-    const property = await Property.findById(id);
-    if (!property) return next(errorHandler(401, "Property not found."));
-
-    res.status(200).json(property);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const viewProperties = async (req, res, next) => {
+export const fetchAllProperties = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex) || 0;
@@ -166,7 +144,29 @@ export const viewProperties = async (req, res, next) => {
   }
 };
 
-export const updateProperty = async (req, res, next) => {
+export const fetchPropertyDetails = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(
+      errorHandler(
+        400,
+        "Invalid property id, try again with valid property id."
+      )
+    );
+  }
+
+  try {
+    const property = await Property.findById(id);
+    if (!property) return next(errorHandler(401, "Property not found."));
+
+    res.status(200).json(property);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updatePropertyDetails = async (req, res, next) => {
   try {
     const { id } = req.params;
 

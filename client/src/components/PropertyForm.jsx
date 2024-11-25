@@ -154,7 +154,7 @@ const PropertyForm = ({ type, initialFormData, onSubmit }) => {
   return (
     <main className="p-6 max-w-5xl mx-auto">
       <h1 className="text-4xl text-center font-semibold text-green-700 my-6">
-        Create Property
+        {initialFormData ? "Update" : "Create"} Property
       </h1>
       <form
         className="flex flex-col bg-white shadow-lg rounded-lg p-6"

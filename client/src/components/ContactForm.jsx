@@ -3,54 +3,56 @@ import { toast } from "react-toastify";
 import emailjs from "emailjs-com";
 
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+  const [contactInfo, setContactInfo] = useState({
+    userName: "",
+    userEmail: "",
+    userMessage: "",
   });
-  const [submitLoading, setSubmitLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ********* Handle Form Changes ********* //
-  const handleChange = (e) => {
+  // ********* Handle Input Changes ********* //
+  const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData({
-      ...formData,
+    setContactInfo({
+      ...contactInfo,
       [id]: value,
     });
   };
 
-  // ********* Handle Form Submit ********* //
-  const handleSubmit = (e) => {
+  // ********* Handle Form Submission ********* //
+  const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    setSubmitLoading(true);
+    setIsSubmitting(true);
 
     const serviceID = "service_qycyx02";
     const templateID = "template_f3n33vo";
-    const userID = "7fWtiqQrwNqT9pZCz";
+    const userID = "Ou7IBmu0sM4jxo1z6";
 
-    const { name, email, message } = formData;
-    if (!name || !email || !message) {
+    const { userName, userEmail, userMessage } = contactInfo;
+    if (!userName || !userEmail || !userMessage) {
       toast.error("Please fill out all fields.");
-      setSubmitLoading(false);
+      setIsSubmitting(false);
       return;
     }
 
     emailjs
-      .send(serviceID, templateID, formData, userID)
+      .send(serviceID, templateID, contactInfo, userID)
       .then(() => {
-        setSubmitLoading(false);
+        setIsSubmitting(false);
         toast.success(
-          "Your message has been sent successfully! We'll get in touch with you asap."
+          "Your message has been sent successfully. We'll get in touch with you soon."
         );
-        setFormData({
-          name: "",
-          email: "",
-          message: "",
+        setContactInfo({
+          userName: "",
+          userEmail: "",
+          userMessage: "",
         });
       })
       .catch((error) => {
-        setSubmitLoading(false);
+        setIsSubmitting(false);
+        console.log(error);
+
         toast.error(
           error.message ||
             "Failed to send your message. Please try again later."
@@ -63,27 +65,27 @@ const ContactForm = () => {
       <h2 className="text-2xl font-semibold text-green-700 mb-4">
         Send Us a Message
       </h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
         <input
           type="text"
-          id="name"
-          value={formData.name}
-          onChange={handleChange}
+          id="userName"
+          value={contactInfo.userName}
+          onChange={handleInputChange}
           placeholder="Your Name"
           className="border rounded-lg p-4 w-full border-gray-300 outline-none focus:border-green-700 transition duration-300"
         />
         <input
           type="email"
-          id="email"
-          value={formData.email}
-          onChange={handleChange}
+          id="userEmail"
+          value={contactInfo.userEmail}
+          onChange={handleInputChange}
           placeholder="Your Email"
           className="border rounded-lg p-4 w-full border-gray-300 outline-none focus:border-green-700 transition duration-300"
         />
         <textarea
-          id="message"
-          value={formData.message}
-          onChange={handleChange}
+          id="userMessage"
+          value={contactInfo.userMessage}
+          onChange={handleInputChange}
           placeholder="Your Message"
           className="border rounded-lg p-4 w-full border-gray-300 outline-none focus:border-green-700 transition duration-300"
           rows={4}
@@ -91,9 +93,9 @@ const ContactForm = () => {
         <button
           type="submit"
           className="py-3 px-6 bg-green-700 text-white rounded-lg hover:bg-green-800 transition duration-300 font-semibold"
-          disabled={submitLoading}
+          disabled={isSubmitting}
         >
-          {submitLoading ? "Sending..." : "Send Message"}
+          {isSubmitting ? "Sending..." : "Send Message"}
         </button>
       </form>
     </div>

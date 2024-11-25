@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import {
   SellerInfo,
@@ -8,28 +9,27 @@ import {
   ImageSwiper,
   PropertyDetails,
 } from "../components";
-import { toast } from "react-toastify";
 
 const PropertyInfo = () => {
   const [property, setProperty] = useState(null);
   const [showSellerInfo, setShowSellerInfo] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
   const { id: propertyId } = useParams();
 
   // ********* Fetch Property Data ********* //
   useEffect(() => {
-    const fetchProperty = async () => {
+    const fetchPropertyData = async () => {
       try {
-        setLoading(true);
-        const res = await fetch(
+        setIsLoading(true);
+        const response = await fetch(
           `${
             import.meta.env.VITE_BACKEND_URL
           }/properties/view-property/${propertyId}`
         );
-        const data = await res.json();
-        if (!res.ok) {
+        const data = await response.json();
+        if (!response.ok) {
           toast.error(data.message);
           setError("PropertyNotFound");
           return;
@@ -39,11 +39,11 @@ const PropertyInfo = () => {
         setError("ServerError");
         console.error("Fetch error:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchProperty();
+    fetchPropertyData();
   }, [propertyId]);
 
   const handleSellerInfoError = (hasError) => {
@@ -52,7 +52,7 @@ const PropertyInfo = () => {
 
   const showContact = property?.userRef !== currentUser?._id;
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center my-7 text-2xl text-gray-700">
         <Loader />
@@ -74,7 +74,7 @@ const PropertyInfo = () => {
     return (
       <SomethingWrong
         title="Oops!"
-        subtitle="Something went wrong."
+        subtitle="Property Not Found."
         description="Sorry, the property you're looking for does not exist. Please try again later."
       />
     );
@@ -99,7 +99,7 @@ const PropertyInfo = () => {
               />
             </div>
             {showContact && showSellerInfo && (
-              <div className="w-full lg:w-1/3  mb-12 lg:ml-12">
+              <div className="w-full lg:w-1/3 mb-12 lg:ml-12">
                 <SellerInfo
                   property={property}
                   onError={handleSellerInfoError}

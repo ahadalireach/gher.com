@@ -1,18 +1,18 @@
 import express from "express";
 import {
-  createProperty,
-  viewProperty,
+  createNewProperty,
+  fetchAllProperties,
+  fetchPropertyDetails,
+  updatePropertyDetails,
   deleteProperty,
-  updateProperty,
-  viewProperties,
 } from "../controllers/propertyController.js";
-import { verifyToken } from "../utils/verifyUser.js";
+import { verifyUser } from "../utils/verifyUser.js";
 const router = express.Router();
 
-router.post("/create-property", verifyToken, createProperty);
-router.get("/view-properties", viewProperties);
-router.get("/view-property/:id", viewProperty);
-router.post("/update-property/:id", verifyToken, updateProperty);
-router.delete("/delete-property/:id", verifyToken, deleteProperty);
+router.post("/create-property", verifyUser, createNewProperty);
+router.get("/view-properties", fetchAllProperties);
+router.get("/view-property/:id", fetchPropertyDetails);
+router.put("/update-property/:id", verifyUser, updatePropertyDetails);
+router.delete("/delete-property/:id", verifyUser, deleteProperty);
 
 export default router;

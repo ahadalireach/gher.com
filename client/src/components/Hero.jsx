@@ -25,7 +25,7 @@ const Hero = () => {
 
           <div className="flex justify-center sm:justify-start gap-4 mb-14 sm:mb-0 ">
             <Link
-              to="/"
+              to="/properties/"
               className="bg-green-700 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-green-800"
             >
               View Properties

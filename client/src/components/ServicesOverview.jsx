@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaRss, FaDollarSign } from "react-icons/fa";
 
-const focusData = [
+const serviceOptions = [
   {
     id: 1,
     title: "Buy Your Dream Home",
     description:
-      "Browse through many homes to find the one that's perfect for you and your family. We're here to assist you at every step.",
+      "Find the perfect home for your family with our help at every step.",
     url: "/properties?searchTerm=&purpose=sell",
     urlName: "Explore Properties",
     icon: FaHome,
   },
   {
     id: 2,
-    title: "Rent a Cozy Home",
+    title: "Rent a Comfortable Home",
     description:
-      "Find rental homes that fit your needs. Whether you need something for a short stay or a long time, we have options for you.",
+      "Discover rental homes for short or long stays that meet your needs.",
     url: "/properties?searchTerm=&purpose=rent",
     urlName: "Find Rental Options",
     icon: FaRss,
@@ -24,14 +24,14 @@ const focusData = [
     id: 3,
     title: "Sell Your Property",
     description:
-      "Looking to sell? We can help you sell your home quickly and for a good price. We'll be with you through the whole process.",
+      "Let us help you sell your property quickly and at a good price.",
     url: "/sell-property",
     urlName: "Start Selling",
     icon: FaDollarSign,
   },
 ];
 
-const OurFocus = () => {
+const ServicesOverview = () => {
   return (
     <div className="max-w-6xl mx-auto p-3 flex flex-col gap-0 my-10">
       <div className="text-center">
@@ -39,12 +39,12 @@ const OurFocus = () => {
           Our Services
         </h6>
         <h1 className="text-4xl text-center font-semibold text-green-700 my-6">
-          Our Main Focus
+          Our Main Focus Areas
         </h1>
       </div>
       <div className="p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {focusData.map((item) => {
+          {serviceOptions.map((item) => {
             const IconComponent = item.icon;
             return (
               <div
@@ -80,4 +80,4 @@ const OurFocus = () => {
   );
 };
 
-export default OurFocus;
+export default ServicesOverview;

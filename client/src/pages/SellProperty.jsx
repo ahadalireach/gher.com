@@ -7,10 +7,10 @@ const SellProperty = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  // ********* Sell/Create Property ********* //
+  // ********* Handle Property Creation ********* //
   const handleSubmit = async (formData) => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/properties/create-property`,
         {
           method: "POST",
@@ -22,8 +22,8 @@ const SellProperty = () => {
         }
       );
 
-      const data = await res.json();
-      if (!res.ok) {
+      const data = await response.json();
+      if (!response.ok) {
         toast.error(data.message);
         return;
       }
@@ -36,7 +36,7 @@ const SellProperty = () => {
     }
   };
 
-  return <PropertyForm type={"create"} onSubmit={handleSubmit} />;
+  return <PropertyForm type="create" onSubmit={handleSubmit} />;
 };
 
 export default SellProperty;

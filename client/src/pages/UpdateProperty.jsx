@@ -1,12 +1,12 @@
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Loader, PropertyForm, SomethingWrong } from "../components";
-import { useEffect, useState } from "react";
 
 const UpdateProperty = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [initialFormData, setInitialFormData] = useState({
+  const [propertyFormData, setPropertyFormData] = useState({
     imageUrls: [],
     title: "",
     description: "",
@@ -33,6 +33,7 @@ const UpdateProperty = () => {
     pool: false,
     communityCenter: false,
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { id: propertyId } = useParams();
@@ -40,21 +41,21 @@ const UpdateProperty = () => {
 
   // ********* Fetch Property Data ********* //
   useEffect(() => {
-    const fetchProperty = async () => {
+    const fetchPropertyData = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
+        const response = await fetch(
           `${
             import.meta.env.VITE_BACKEND_URL
           }/properties/view-property/${propertyId}`
         );
-        const data = await res.json();
-        if (!res.ok) {
+        const data = await response.json();
+        if (!response.ok) {
           toast.error(data.message);
           setError("PropertyNotFound");
           return;
         }
-        setInitialFormData(data);
+        setPropertyFormData(data);
       } catch (error) {
         setError("ServerError");
         console.error("Fetch error:", error);
@@ -63,28 +64,32 @@ const UpdateProperty = () => {
       }
     };
 
-    fetchProperty();
+    fetchPropertyData();
   }, [propertyId]);
 
   // ********* Update Property ********* //
   const handleSubmit = async (formData) => {
+    const bodyData = currentUser
+      ? { ...formData, userRef: currentUser._id }
+      : { ...formData };
+
     try {
-      const res = await fetch(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/properties/update-property/${propertyId}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/${
+          currentUser ? "properties/update-property" : "admin/update-property"
+        }/${propertyId}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ ...formData, userRef: currentUser._id }),
+          body: JSON.stringify(bodyData),
         }
       );
 
-      const data = await res.json();
-      if (!res.ok) {
+      const data = await response.json();
+      if (!response.ok) {
         toast.error(data.message);
         return;
       }
@@ -96,6 +101,7 @@ const UpdateProperty = () => {
     }
   };
 
+  // ********* Loading and Error Handling ********* //
   if (loading) {
     return (
       <div className="flex justify-center items-center my-7 text-2xl text-gray-700">
@@ -118,16 +124,17 @@ const UpdateProperty = () => {
     return (
       <SomethingWrong
         title="Oops!"
-        subtitle="Something went wrong."
+        subtitle="Property Not Found."
         description="Sorry, the property you're looking for does not exist. Please try again later."
       />
     );
   }
+
   return (
     <PropertyForm
-      type={"update"}
+      type="update"
       onSubmit={handleSubmit}
-      initialFormData={initialFormData}
+      initialFormData={propertyFormData}
     />
   );
 };

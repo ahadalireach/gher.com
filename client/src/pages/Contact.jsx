@@ -1,6 +1,6 @@
 import { ContactInfo, ContactForm } from "../components";
 
-const ContactPage = () => {
+const Contact = () => {
   return (
     <main className="p-6 max-w-5xl mx-auto">
       <h1 className="text-4xl text-center font-bold text-green-700 mb-8">
@@ -14,4 +14,4 @@ const ContactPage = () => {
   );
 };
 
-export default ContactPage;
+export default Contact;

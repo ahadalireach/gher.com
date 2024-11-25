@@ -35,7 +35,7 @@ import { errorHandler } from "../utils/error.js";
 //   }
 // };
 
-export const signinAdmin = async (req, res, next) => {
+export const adminSignin = async (req, res, next) => {
   const { loginIdentifier, password } = req.body;
 
   if (!loginIdentifier || !password)
@@ -59,7 +59,11 @@ export const signinAdmin = async (req, res, next) => {
 
     const { password: _, ...adminWithoutPassword } = admin._doc;
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      })
       .status(200)
       .json(adminWithoutPassword);
   } catch (error) {
@@ -67,7 +71,7 @@ export const signinAdmin = async (req, res, next) => {
   }
 };
 
-export const signoutAdmin = async (req, res, next) => {
+export const adminSignout = async (req, res, next) => {
   try {
     res.clearCookie("access_token");
     res.status(200).json({ message: "Admin signed out successfully." });
@@ -76,11 +80,10 @@ export const signoutAdmin = async (req, res, next) => {
   }
 };
 
-export const updateAdmin = async (req, res, next) => {
+export const updateAdminDetails = async (req, res, next) => {
+  const { id } = req.params;
+  const { fullname, username, email, avatar } = req.body;
   try {
-    const { fullname, username, email, avatar } = req.body;
-    const { id } = req.params;
-
     const updates = {
       fullname: fullname || undefined,
       username: username || undefined,
@@ -101,11 +104,222 @@ export const updateAdmin = async (req, res, next) => {
   }
 };
 
-export const viewAllUsers = async (req, res, next) => {
+export const fetchAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({ isAdmin: false });
     //     const users = await User.find({ isAdmin: { $ne: "true" } });
     res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUserDetails = async (req, res, next) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(
+      errorHandler(400, "Invalid user id, try again with valid user id.")
+    );
+  }
+
+  const {
+    fullname,
+    username,
+    email,
+    avatar,
+    password,
+    localno,
+    whatsappno,
+    linkedin,
+    facebook,
+    instagram,
+  } = req.body;
+
+  const updateData = {
+    fullname,
+    username,
+    avatar,
+    email,
+    password,
+    localno,
+    whatsappno,
+    linkedin,
+    facebook,
+    instagram,
+  };
+
+  if (password) {
+    updateData.password = bcryptjs.hashSync(password, 10);
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user: updatedUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(
+      errorHandler(400, "Invalid user id, try again with valid user id.")
+    );
+  }
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    await Property.deleteMany({ userRef: id });
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully!",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const fetchUserProperties = async (req, res, next) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(
+      errorHandler(400, "Invalid user id, try again with valid user id.")
+    );
+  }
+  try {
+    const properties = await Property.find({ userRef: id });
+
+    res.status(200).json(properties);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUserProperty = async (req, res, next) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(
+      errorHandler(400, "Invalid user id, try again with valid user id.")
+    );
+  }
+
+  try {
+    const deletedProperty = await Property.findByIdAndDelete(id);
+    if (!deletedProperty) {
+      return next(errorHandler(400, "Property not found."));
+    }
+
+    res.status(200).json({ message: "Property deleted successfully." });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updatePropertyDetails = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(
+        errorHandler(
+          400,
+          "Property not found try again with valid property id."
+        )
+      );
+    }
+
+    const property = await Property.findById(id);
+    if (!property) return next(errorHandler(401, "Property not found."));
+
+    const {
+      title,
+      description,
+      area,
+      address,
+      regularPrice,
+      discountPrice,
+      bedrooms,
+      bathrooms,
+      kitchens,
+      floors,
+      imageUrls,
+      offer,
+    } = req.body;
+
+    console.log(req.body);
+
+    if (
+      !title?.trim() ||
+      !description?.trim() ||
+      !area?.trim() ||
+      !address?.trim()
+    ) {
+      return next(errorHandler(400, "Please fill in all required fields."));
+    }
+
+    if (
+      [floors, bedrooms, bathrooms, kitchens].some(
+        (value) => value <= 0 || isNaN(value)
+      )
+    ) {
+      return next(
+        errorHandler(
+          400,
+          "Please enter valid numeric values for property details."
+        )
+      );
+    }
+    if (regularPrice < 10000) {
+      return next(
+        errorHandler(400, `Regular price must be greater than 10000.`)
+      );
+    }
+
+    if (offer && (discountPrice <= 0 || discountPrice >= regularPrice * 0.95)) {
+      return next(
+        errorHandler(
+          400,
+          "Discount price must be greater than 0 and at least 5% less than regular price."
+        )
+      );
+    }
+
+    if (!imageUrls || imageUrls.length === 0) {
+      return next(errorHandler(400, "Please upload at least one image."));
+    }
+
+    if (imageUrls.length > 6) {
+      return next(errorHandler(400, "You can upload a maximum of 6 images."));
+    }
+
+    const updatedProperty = await Property.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json(updatedProperty);
   } catch (error) {
     next(error);
   }

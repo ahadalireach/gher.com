@@ -6,14 +6,15 @@ import { toast } from "react-toastify";
 
 const UserPrivateRoute = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const { currentAdmin } = useSelector((state) => state.admin);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!currentUser && !currentAdmin) {
       toast.error("Please sign in to access this page.");
     }
   }, []);
 
-  if (!currentUser) {
+  if (!currentUser && !currentAdmin) {
     return <Navigate to="/sign-in" />;
   }
 

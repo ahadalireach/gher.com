@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, handleDeleteUser }) => {
   return (
     <div className="relative border border-gray-300 p-5 flex flex-col items-center space-y-3 bg-white rounded-lg shadow-lg">
       <img
         src={
           user.avatar ||
-          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fvectors%2Fblank-profile-picture-mystery-man-973460%2F&psig=AOvVaw3tSxuWk75Rhn45WNxk3GIG&ust=1732267565143000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMCBmNqN7YkDFQAAAAAdAAAAABAE"
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
         }
         alt="User"
         className="w-24 h-24 rounded-full object-cover border-4 border-green-500"
@@ -19,15 +19,15 @@ const UserCard = ({ user }) => {
 
       <div className="flex flex-col gap-4 w-full">
         <div className="flex gap-4 w-full">
-          <Link
-            to={`/admin/user-profile/update/${user._id}`}
-            className="w-full"
-          >
+          <Link to={`/admin/update-user/${user._id}`} className="w-full">
             <button className="w-full text-green-700 hover:bg-green-100 px-4 py-2 rounded-md text-sm transition-colors border border-green-700">
               Edit
             </button>
           </Link>
-          <button className="text-red-700 hover:bg-red-100 px-4 py-2 rounded-md text-sm transition-colors border border-red-700">
+          <button
+            onClick={() => handleDeleteUser(user._id)}
+            className="text-red-700 hover:bg-red-100 px-4 py-2 rounded-md text-sm transition-colors border border-red-700"
+          >
             Delete
           </button>
         </div>

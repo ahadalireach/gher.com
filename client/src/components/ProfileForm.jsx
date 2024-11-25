@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { ConfirmationModal, FileUpload } from ".";
 import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ProfileForm = ({
   onSubmit,
@@ -11,11 +12,13 @@ const ProfileForm = ({
   handleDeleteUser,
   isAdmin,
   handleSignoutAdmin,
+  updateUserAsAdmin,
 }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [loading, setLoading] = useState(false);
   const [hideWhatsapp, setHideWhatsapp] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (initialFormData) setFormData(initialFormData);
@@ -89,13 +92,12 @@ const ProfileForm = ({
           <input
             type="text"
             placeholder="Full Name"
-            value={formData.fullname}
+            value={formData?.fullname}
             id="fullname"
             className="w-full px-4 py-3 rounded-lg border border-gray-300 outline-none focus:border-green-700"
             onChange={handleChange}
           />
         </div>
-
         <div>
           <label
             htmlFor="username"
@@ -106,13 +108,12 @@ const ProfileForm = ({
           <input
             type="text"
             placeholder="Username"
-            value={formData.username}
+            value={formData?.username}
             id="username"
             className="w-full px-4 py-3 rounded-lg border border-gray-300 outline-none focus:border-green-700"
             onChange={handleChange}
           />
         </div>
-
         <div>
           <label
             htmlFor="email"
@@ -123,14 +124,42 @@ const ProfileForm = ({
           <input
             type="email"
             placeholder="Email"
-            value={formData.email}
+            value={formData?.email}
             id="email"
             className="w-full px-4 py-3 rounded-lg border border-gray-300 outline-none focus:border-green-700"
             onChange={handleChange}
           />
         </div>
 
-        {!isAdmin && (
+        {isAdmin && updateUserAsAdmin && (
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-500 mb-1"
+            >
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="border rounded-lg p-3 w-full border-gray-300 outline-none focus:border-green-500 pr-10"
+                id="password"
+                value={formData?.password}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {(!isAdmin || updateUserAsAdmin) && (
           <>
             {" "}
             <div className="flex flex-col sm:flex-row gap-2">
@@ -144,7 +173,7 @@ const ProfileForm = ({
                 <input
                   type="text"
                   placeholder="Local Number"
-                  value={formData.localno}
+                  value={formData?.localno}
                   id="localno"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 outline-none focus:border-green-700"
                   onChange={handleChange}
@@ -271,7 +300,7 @@ const ProfileForm = ({
           </div>
         </>
       )}
-      {isAdmin && (
+      {isAdmin && !updateUserAsAdmin && (
         <div className="mt-3">
           <Link to="/admin-dashboard" className="w-full">
             <button className="w-full bg-green-700 text-white py-3 rounded-lg transform hover:bg-green-800 focus:outline-none font-semibold">

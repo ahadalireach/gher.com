@@ -59,7 +59,7 @@ const Footer = () => {
             </li>
             <li>
               <Link to="/about" className="text-green-700 hover:text-green-600">
-                About Us
+                About
               </Link>
             </li>
             <li>
@@ -67,7 +67,7 @@ const Footer = () => {
                 to="/contact"
                 className="text-green-700 hover:text-green-600"
               >
-                Contact Us
+                Contact
               </Link>
             </li>
           </ul>
@@ -95,9 +95,12 @@ const Footer = () => {
       <div className="mt-12 border-t border-gray-200 pt-6 text-center text-sm">
         <p>
           &copy; {new Date().getFullYear()}{" "}
-          <span className="font-semibold text-green-700 cursor-pointer">
+          <a
+            href="https://gher.vercel.app/"
+            className="font-semibold text-green-700 cursor-pointer"
+          >
             Gher.com
-          </span>
+          </a>
           . All rights reserved.
         </p>
       </div>

@@ -4,14 +4,14 @@ import { useDispatch } from "react-redux";
 import { AuthForm } from "../components";
 import { signinSuccess } from "../redux/slices/userSlice";
 
-const UserSignInPage = () => {
+const UserSignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // ********* Signin Request ********* //
-  const handleSubmit = async (formData) => {
+  // ********* Handle User Sign-In ********* //
+  const handleSignIn = async (credentials) => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/auth/signin`,
         {
           method: "POST",
@@ -19,25 +19,26 @@ const UserSignInPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(credentials),
         }
       );
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
+
+      const result = await response.json();
+      if (!response.ok) {
+        toast.error(result.message);
         return;
       }
 
+      dispatch(signinSuccess(result));
+      toast.success("Sign-in successful.");
       navigate("/profile");
-      dispatch(signinSuccess(data));
-      toast.success("Signin successfully.");
     } catch (error) {
       console.error("Fetch error:", error);
       toast.error("Failed to connect to the server. Please try again later.");
     }
   };
 
-  return <AuthForm type="signin" onSubmit={handleSubmit} />;
+  return <AuthForm type="signin" onSubmit={handleSignIn} />;
 };
 
-export default UserSignInPage;
+export default UserSignIn;

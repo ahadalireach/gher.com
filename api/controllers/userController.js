@@ -4,7 +4,7 @@ import { User } from "../models/userModel.js";
 import { Property } from "../models/propertyModel.js";
 import { errorHandler } from "../utils/error.js";
 
-export const updateUser = async (req, res, next) => {
+export const updateUserProfile = async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -155,7 +155,7 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
-export const deleteUser = async (req, res, next) => {
+export const deleteUserProfile = async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -180,7 +180,7 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-export const getUser = async (req, res, next) => {
+export const fetchUserInfo = async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -200,7 +200,7 @@ export const getUser = async (req, res, next) => {
   }
 };
 
-export const getUserProperties = async (req, res, next) => {
+export const fetchUserOwnedProperties = async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {

@@ -1,10 +1,9 @@
-import { User } from "../models/userModel.js";
-import bcryptjs from "bcryptjs";
-import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
+import { User } from "../models/userModel.js";
+import { errorHandler } from "../utils/error.js";
 
-// Sign Up User
-export const signupUser = async (req, res, next) => {
+export const registerUser = async (req, res, next) => {
   const { fullname, username, email, password } = req.body;
 
   if (!fullname || !username || !email || !password) {
@@ -62,8 +61,7 @@ export const signupUser = async (req, res, next) => {
   }
 };
 
-// Sign In User
-export const signinUser = async (req, res, next) => {
+export const loginUser = async (req, res, next) => {
   const { loginIdentifier, password } = req.body;
 
   if (!loginIdentifier || !password)
@@ -91,7 +89,11 @@ export const signinUser = async (req, res, next) => {
     const { password: _, ...userWithoutPassword } = user._doc;
 
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      })
       .status(200)
       .json(userWithoutPassword);
   } catch (error) {
@@ -99,8 +101,7 @@ export const signinUser = async (req, res, next) => {
   }
 };
 
-// Google OAuth
-export const google = async (req, res, next) => {
+export const googleSignin = async (req, res, next) => {
   const { fullname, email, photo } = req.body;
 
   try {
@@ -110,7 +111,11 @@ export const google = async (req, res, next) => {
       const { password: _, ...userWithoutPassword } = user._doc;
 
       res
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "None",
+        })
         .status(200)
         .json(userWithoutPassword);
     }
@@ -135,7 +140,11 @@ export const google = async (req, res, next) => {
     const { password: _, ...userWithoutPassword } = user._doc;
 
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      })
       .status(200)
       .json(userWithoutPassword);
   } catch (error) {
@@ -143,10 +152,8 @@ export const google = async (req, res, next) => {
   }
 };
 
-export const signoutUser = (req, res, next) => {
+export const logoutUser = (req, res, next) => {
   try {
-    const accessToken = req.cookies.access_token;
-
     res.clearCookie("access_token");
     res.status(200).json({ message: "User signed out successfully." });
   } catch (error) {

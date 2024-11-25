@@ -5,9 +5,10 @@ const ContactInfo = () => {
         Contact Information
       </h2>
       <p className="mb-6 text-gray-700">
-        We&apos;re here to assist you with any questions or concerns. Reach out
-        to us using the contact details below or send us a message using the
-        form.
+        We&apos;re here to help with any questions. You can reach us through the
+        details below or send a message using the form. We are excited to assist
+        you with all your real estate requirements and ensure a smooth
+        experience every step of the way!
       </p>
       <div className="space-y-4">
         <div>
@@ -38,9 +39,6 @@ const ContactInfo = () => {
             Lahore, Punjab, Pakistan
           </p>
         </div>
-        <p className="text-gray-700">
-          We look forward to assisting you with your real estate needs!
-        </p>
       </div>
     </div>
   );

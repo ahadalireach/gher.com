@@ -5,7 +5,7 @@ const NotFound = () => {
     <SomethingWrong
       title={"404"}
       subtitle={"Page Not Found"}
-      description={"Sorry, the page you're looking for doesn&apos;t exist."}
+      description={"Sorry, the page you're looking for doesn't exist."}
     />
   );
 };

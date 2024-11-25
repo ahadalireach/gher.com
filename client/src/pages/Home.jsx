@@ -1,27 +1,26 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   Hero,
   AboutUs,
-  OurFocus,
+  ServicesOverview,
   HomeProperties,
   Loader,
   SomethingWrong,
 } from "../components";
-import { toast } from "react-toastify";
 
-const HomePage = () => {
-  const [properties, setProperties] = useState({
+const Home = () => {
+  const [fetchedProperties, setFetchedProperties] = useState({
     offer: [],
     rent: [],
     sell: [],
   });
-  const [errors, setErrors] = useState({
+  const [propertyErrors, setPropertyErrors] = useState({
     offer: false,
     rent: false,
     sell: false,
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingProperties, setIsLoadingProperties] = useState(true);
 
   // ********* Fetch Properties ********* //
   const fetchProperties = async (type, query) => {
@@ -29,30 +28,40 @@ const HomePage = () => {
       const url = `${
         import.meta.env.VITE_BACKEND_URL
       }/properties/view-properties?${query}&limit=3`;
-      const res = await fetch(url, {
+      const response = await fetch(url, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setErrors((prev) => ({ ...prev, [type]: true }));
+      const data = await response.json();
+      if (!response.ok) {
+        setPropertyErrors((prev) => ({ ...prev, [type]: true }));
         toast.error(data.message || `Failed to fetch ${type} properties.`);
         return;
       }
 
-      setProperties((prev) => ({ ...prev, [type]: data }));
+      setFetchedProperties((prev) => ({ ...prev, [type]: data }));
     } catch (error) {
-      setErrors((prev) => ({ ...prev, [type]: true }));
-      console.error(`Error fetching ${type} properties:`, error.message);
+      setPropertyErrors((prev) => ({ ...prev, [type]: true }));
+      if (error instanceof TypeError) {
+        console.error(
+          `Network error fetching ${type} properties:`,
+          error.message
+        );
+      } else {
+        console.error(
+          `Unexpected error fetching ${type} properties:`,
+          error.message
+        );
+      }
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      setIsLoadingProperties(true);
       try {
         await Promise.all([
           fetchProperties("offer", "offer=true"),
@@ -60,18 +69,14 @@ const HomePage = () => {
           fetchProperties("sell", "purpose=sell"),
         ]);
       } finally {
-        setIsLoading(false);
+        setIsLoadingProperties(false);
       }
     };
 
     fetchData();
   }, []);
 
-  //   const errorMessages = Object.entries(errors)
-  //     .filter(([, hasError]) => hasError)
-  //     .map(([type]) => `Failed to load ${type} properties.`);
-
-  const allTypesHaveErrors = Object.values(errors).every(
+  const allTypesHaveErrors = Object.values(propertyErrors).every(
     (hasError) => hasError
   );
 
@@ -79,7 +84,7 @@ const HomePage = () => {
     <>
       <Hero />
       <AboutUs />
-      {isLoading ? (
+      {isLoadingProperties ? (
         <Loader />
       ) : allTypesHaveErrors ? (
         <SomethingWrong
@@ -90,7 +95,7 @@ const HomePage = () => {
       ) : (
         <>
           {["offer", "rent", "sell"].map((type) =>
-            errors[type] ? (
+            propertyErrors[type] ? (
               <SomethingWrong
                 key={type}
                 subtitle={"Oops!"}
@@ -98,7 +103,7 @@ const HomePage = () => {
                 isHome={true}
               />
             ) : (
-              properties[type].length > 0 && (
+              fetchedProperties[type].length > 0 && (
                 <HomeProperties
                   key={type}
                   title={
@@ -108,11 +113,11 @@ const HomePage = () => {
                       ? "Recent Properties for Rent"
                       : "Recent Properties for Sale"
                   }
-                  properties={properties[type]}
+                  properties={fetchedProperties[type]}
                   url={
                     type === "offer"
-                      ? "/search?offer=true"
-                      : `/search?purpose=${type}`
+                      ? "/properties?offer=true"
+                      : `/properties?purpose=${type}`
                   }
                 />
               )
@@ -120,9 +125,9 @@ const HomePage = () => {
           )}
         </>
       )}
-      <OurFocus />
+      <ServicesOverview />
     </>
   );
 };
 
-export default HomePage;
+export default Home;

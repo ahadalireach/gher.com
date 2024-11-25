@@ -15,6 +15,8 @@ import {
   Properties,
   AdminDashboard,
   AdminProfile,
+  UserInfo,
+  UpdateUser,
 } from "./pages";
 import {
   AdminPrivateRoute,
@@ -53,6 +55,8 @@ const App = () => {
         <Route element={<AdminPrivateRoute />}>
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
+          <Route path="/admin/user-profile/:id" element={<UserInfo />} />
+          <Route path="/admin/update-user/:id" element={<UpdateUser />} />
         </Route>
       </Routes>
       <Footer />

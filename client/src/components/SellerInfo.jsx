@@ -32,7 +32,8 @@ const SellerInfo = ({ property, onError }) => {
       );
 
       if (!res.ok) {
-        throw new Error("Failed to fetch user info");
+        toast.error(data.message || "Failed to fetch user info.");
+        return;
       }
       const data = await res.json();
       toast.error(data.message);
@@ -284,7 +285,7 @@ const SellerInfo = ({ property, onError }) => {
             href="https://www.linkedin.com/in/ahadalireach"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 border border-gray-300 hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
+            className="p-3 border border-gray-300 rounded-lg hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
           >
             <FaLinkedin />
           </a>
@@ -292,7 +293,7 @@ const SellerInfo = ({ property, onError }) => {
             href="https://www.facebook.com/ahadalireach"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 border border-gray-300 hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
+            className="p-3 border border-gray-300 rounded-lg hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
           >
             <FaFacebook />
           </a>
@@ -300,7 +301,7 @@ const SellerInfo = ({ property, onError }) => {
             href="https://www.instagram.com/ahadalireach"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 border border-gray-300 hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
+            className="p-3 border border-gray-300 rounded-lg hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
           >
             <FaInstagram />
           </a>
@@ -308,7 +309,7 @@ const SellerInfo = ({ property, onError }) => {
             href="https://github.com/ahadalireach"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 border border-gray-300 hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
+            className="p-3 border border-gray-300 rounded-lg hover:bg-green-100 transition-colors cursor-pointer text-gray-500 text-xl hover:text-green-700"
           >
             <FaGithub />
           </a>

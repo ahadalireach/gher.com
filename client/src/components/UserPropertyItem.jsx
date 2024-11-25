@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ConfirmationModal from "./ConfirmationModal";
+import { ConfirmationModal } from ".";
 
 const UserPropertyItem = ({
   property,

@@ -13,6 +13,8 @@ import UserProfile from "./UserProfile";
 // **************** Admin Related Pages *********************** //
 import AdminProfile from "./AdminProfile";
 import AdminDashboard from "./AdminDashboard";
+import UserInfo from "./UserInfo";
+import UpdateUser from "./UpdateUser";
 
 // *************** Property Related Pages ******************** //
 import Properties from "./Properties";
@@ -31,6 +33,8 @@ export {
   UserProfile,
   AdminProfile,
   AdminDashboard,
+  UserInfo,
+  UpdateUser,
   Properties,
   PropertyInfo,
   SellProperty,

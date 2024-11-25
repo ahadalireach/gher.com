@@ -1,17 +1,24 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Loader, SomethingWrong, UserCard } from "../components";
+import {
+  ConfirmationModal,
+  Loader,
+  SomethingWrong,
+  UserCard,
+} from "../components";
 
 const AdminDashboard = () => {
   const [isLoading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [users, setUsers] = useState([]);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  // ********* Fetch All Users ********* //
+  // ********* Fetch Users ********* //
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/admin/view-users`,
         {
           credentials: "include",
@@ -20,24 +27,72 @@ const AdminDashboard = () => {
           },
         }
       );
-      const data = await res.json();
-      if (!res.ok) {
+      const data = await response.json();
+      if (!response.ok) {
         setIsError(true);
-        toast.error(data.message);
+        toast.error(data.message || "Failed to fetch users");
         return;
       }
-      setLoading(false);
       setUsers(data);
     } catch (error) {
-      setLoading(false);
       setIsError(true);
+      toast.error("Error connecting to the server. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // ********* Handle User Deletion ********* //
+  const handleDeleteUser = async (userId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/admin/delete-user/${userId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        toast.error(data.message || "Failed to delete user");
+        return;
+      }
+
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
+      toast.success("User  deleted successfully.");
+    } catch (error) {
+      toast.error("Error deleting user.");
+    }
+  };
+
+  // ********* Handle Delete Confirmation ********* //
+  const handleDeleteConfirmation = (userId) => {
+    setSelectedUserId(userId);
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedUserId) {
+      handleDeleteUser(selectedUserId);
+    }
+    setShowDeleteConfirmation(false);
+    setSelectedUserId(null);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
+    setSelectedUserId(null);
+  };
+
+  // ********* Fetch Users on Component Mount ********* //
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  // ********* Render Loading or Error State ********* //
   if (isLoading) return <Loader />;
   if (isError) {
     return (
@@ -59,11 +114,21 @@ const AdminDashboard = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {users.map((user) => (
-              <UserCard key={user._id} user={user} />
+              <UserCard
+                key={user._id}
+                user={user}
+                handleDeleteUser={handleDeleteConfirmation}
+              />
             ))}
           </div>
         )}
       </div>
+      <ConfirmationModal
+        isOpen={showDeleteConfirmation}
+        title="Are you sure you want to delete this account?"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </div>
   );
 };

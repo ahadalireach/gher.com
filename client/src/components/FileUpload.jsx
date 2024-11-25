@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { useState, useRef } from "react";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useSelector } from "react-redux";
 import { app } from "../firebase";
 
 const FileUpload = ({ formData, onFileUploaded }) => {

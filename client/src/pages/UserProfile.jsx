@@ -9,9 +9,9 @@ import {
   deleteUserSuccess,
 } from "../redux/slices/userSlice";
 
-const UserProfilePage = () => {
+const UserProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [initialFormData] = useState({
+  const [initialProfileData] = useState({
     fullname: currentUser.fullname || "",
     username: currentUser.username || "",
     email: currentUser.email || "",
@@ -23,7 +23,7 @@ const UserProfilePage = () => {
     whatsappno: currentUser.whatsappno || "",
   });
   const [userProperties, setUserProperties] = useState([]);
-  const [propertiesShown, setPropertiesShown] = useState(false);
+  const [arePropertiesVisible, setArePropertiesVisible] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
 
   const dispatch = useDispatch();
@@ -36,9 +36,9 @@ const UserProfilePage = () => {
   }, []);
 
   // ********* Update Profile ********* //
-  const handleSubmit = async (formData) => {
+  const handleProfileUpdate = async (profileData) => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/user/update-user/${
           currentUser._id
         }`,
@@ -46,18 +46,18 @@ const UserProfilePage = () => {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(profileData),
         }
       );
-      const data = await res.json();
+      const result = await response.json();
 
-      if (!res.ok) {
-        toast.error(data.message);
+      if (!response.ok) {
+        toast.error(result.message);
         return;
       }
 
       toast.success("Profile updated successfully.");
-      dispatch(updateUserSuccess(data));
+      dispatch(updateUserSuccess(result));
     } catch (error) {
       console.error("Fetch error:", error);
       toast.error("Failed to connect to the server. Please try again later.");
@@ -65,9 +65,9 @@ const UserProfilePage = () => {
   };
 
   // ********* Signout User ********* //
-  const handleSignoutUser = async () => {
+  const handleUserSignout = async () => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/auth/signout`,
         {
           method: "GET",
@@ -77,14 +77,14 @@ const UserProfilePage = () => {
           },
         }
       );
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
+      const result = await response.json();
+      if (!response.ok) {
+        toast.error(result.message);
         return;
       }
       navigate("/");
-      dispatch(signoutSuccess(data));
-      toast.success(data.message);
+      dispatch(signoutSuccess(result));
+      toast.success(result.message);
     } catch (error) {
       console.error("Fetch error:", error);
       toast.error("Failed to connect to the server. Please try again later.");
@@ -92,9 +92,9 @@ const UserProfilePage = () => {
   };
 
   // ********* Delete User ********* //
-  const handleDeleteUser = async () => {
+  const handleUserDeletion = async () => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/user/delete-user/${
           currentUser._id
         }`,
@@ -105,15 +105,15 @@ const UserProfilePage = () => {
         }
       );
 
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
+      const result = await response.json();
+      if (!response.ok) {
+        toast.error(result.message);
         return;
       }
 
       navigate("/sign-in");
       dispatch(deleteUserSuccess());
-      toast.success(data.message);
+      toast.success(result.message);
     } catch (error) {
       console.error("Fetch error:", error);
       toast.error("Failed to connect to the server. Please try again later.");
@@ -121,15 +121,15 @@ const UserProfilePage = () => {
   };
 
   // ********* User Properties ********* //
-  const handleShowProperties = async () => {
+  const toggleUserProperties = async () => {
     try {
-      if (propertiesShown) {
-        setPropertiesShown(false);
+      if (arePropertiesVisible) {
+        setArePropertiesVisible(false);
         setUserProperties([]);
         return;
       }
-      const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/user/view-properties/${
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/user/user-properties/${
           currentUser._id
         }`,
         {
@@ -138,13 +138,13 @@ const UserProfilePage = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
+      const result = await response.json();
+      if (!response.ok) {
+        toast.error(result.message);
         return;
       }
-      setUserProperties(data);
-      setPropertiesShown(true);
+      setUserProperties(result);
+      setArePropertiesVisible(true);
     } catch (error) {
       console.error("Fetch error:", error);
       toast.error("Failed to connect to the server. Please try again later.");
@@ -154,7 +154,7 @@ const UserProfilePage = () => {
   // ********* Delete Property ********* //
   const handleDeleteProperty = async (propertyId) => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${
           import.meta.env.VITE_BACKEND_URL
         }/properties/delete-property/${propertyId}`,
@@ -164,17 +164,17 @@ const UserProfilePage = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      const data = await res.json();
+      const result = await response.json();
 
-      if (!res.ok) {
-        toast.error(data.message || "Failed to delete property.");
+      if (!response.ok) {
+        toast.error(result.message || "Failed to delete property.");
         return;
       }
 
       setUserProperties((prev) =>
         prev.filter((property) => property._id !== propertyId)
       );
-      toast.success(data.message);
+      toast.success(result.message);
     } catch (error) {
       console.error("Fetch error:", error);
       toast.error("Failed to connect to the server. Please try again later.");
@@ -187,20 +187,22 @@ const UserProfilePage = () => {
         Profile
       </h1>
       <ProfileForm
-        onSubmit={handleSubmit}
-        initialFormData={initialFormData}
-        handleSignoutUser={handleSignoutUser}
-        handleDeleteUser={handleDeleteUser}
+        onSubmit={handleProfileUpdate}
+        initialFormData={initialProfileData}
+        handleSignoutUser={handleUserSignout}
+        handleDeleteUser={handleUserDeletion}
       />
       <div className="my-4 text-center">
         <button
-          onClick={handleShowProperties}
+          onClick={toggleUserProperties}
           className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-800 font-semibold"
         >
-          {propertiesShown ? "Hide Properties List" : "Show My Properties List"}
+          {arePropertiesVisible
+            ? "Hide Properties List"
+            : "Show My Properties List"}
         </button>
       </div>
-      {propertiesShown && userProperties.length === 0 ? (
+      {arePropertiesVisible && userProperties.length === 0 ? (
         <h1 className="text-center mt-7 text-xl font-semibold text-gray-700 bg-yellow-100 p-4 mb-5 rounded-lg shadow-md border-2 border-yellow-300">
           No Property Found!
         </h1>
@@ -225,4 +227,4 @@ const UserProfilePage = () => {
   );
 };
 
-export default UserProfilePage;
+export default UserProfile;

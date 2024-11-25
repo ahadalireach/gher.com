@@ -2,11 +2,11 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ProfileForm } from "../components";
 import {
   adminSignoutSuccess,
   updateAdminSuccess,
 } from "../redux/slices/adminSlice";
-import { ProfileForm } from "../components";
 
 const AdminProfile = () => {
   const { currentAdmin } = useSelector((state) => state.admin);
@@ -19,10 +19,10 @@ const AdminProfile = () => {
     avatar: currentAdmin.avatar,
   });
 
-  // ********* Update Admin ********* //
+  // ********* Update Admin Profile ********* //
   const handleSubmit = async (formData) => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/admin/update-admin/${
           currentAdmin._id
         }`,
@@ -36,9 +36,9 @@ const AdminProfile = () => {
         }
       );
 
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
+      const data = await response.json();
+      if (!response.ok) {
+        toast.error(data.message || "Failed to update profile");
         return;
       }
 
@@ -53,7 +53,7 @@ const AdminProfile = () => {
   // ********* Admin Signout ********* //
   const handleSignoutAdmin = async () => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/admin/signout`,
         {
           method: "GET",
@@ -64,17 +64,17 @@ const AdminProfile = () => {
         }
       );
 
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
+      const data = await response.json();
+      if (!response.ok) {
+        toast.error(data.message || "Failed to sign out");
         return;
       }
 
-      navigate("/");
-      toast.success(data.message);
       dispatch(adminSignoutSuccess(data));
+      toast.success(data.message);
+      navigate("/");
     } catch (error) {
-      console.error("Fetch error:", error);
+      console.error("Fetch error:", error.message);
       toast.error("Failed to connect to the server. Please try again later.");
     }
   };
@@ -85,7 +85,7 @@ const AdminProfile = () => {
         Admin Profile
       </h1>
       <ProfileForm
-        isAdmin="true"
+        isAdmin={true}
         initialFormData={initialFormData}
         onSubmit={handleSubmit}
         handleSignoutAdmin={handleSignoutAdmin}

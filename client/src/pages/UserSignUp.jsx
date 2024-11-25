@@ -2,13 +2,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AuthForm } from "../components";
 
-const UserSignUpPage = () => {
+const UserSignUp = () => {
   const navigate = useNavigate();
 
-  // ********* Signup User ********* //
-  const handleSubmit = async (formData) => {
+  // ********* Handle User Signup ********* //
+  const handleSignUp = async (userData) => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
         {
           method: "POST",
@@ -16,16 +16,16 @@ const UserSignUpPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(userData),
         }
       );
 
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
+      const result = await response.json();
+      if (!response.ok) {
+        toast.error(result.message);
         return;
       }
-      toast.success(data.message);
+      toast.success(result.message);
       navigate("/sign-in");
     } catch (error) {
       console.error("Fetch error:", error);
@@ -33,7 +33,7 @@ const UserSignUpPage = () => {
     }
   };
 
-  return <AuthForm type="signup" onSubmit={handleSubmit} />;
+  return <AuthForm type="signup" onSubmit={handleSignUp} />;
 };
 
-export default UserSignUpPage;
+export default UserSignUp;

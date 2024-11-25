@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-const PropertyFilter = ({ sidebardata, handleChange, handleSubmit }) => {
+const PropertiesFilter = ({ sidebardata, handleChange, handleSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="flex items-center gap-2">
@@ -171,4 +171,4 @@ const PropertyFilter = ({ sidebardata, handleChange, handleSubmit }) => {
   );
 };
 
-export default PropertyFilter;
+export default PropertiesFilter;

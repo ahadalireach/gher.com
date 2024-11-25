@@ -2,7 +2,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Loader, PropertyFilter, PropertyItem } from "../components";
+import {
+  Loader,
+  PropertiesFilter,
+  PropertyItem,
+  SomethingWrong,
+} from "../components";
 
 const Properties = () => {
   const navigate = useNavigate();
@@ -17,7 +22,8 @@ const Properties = () => {
     sort: "created_at",
     order: "desc",
   });
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [properties, setProperties] = useState([]);
   const [showMore, setShowMore] = useState(false);
 
@@ -59,7 +65,7 @@ const Properties = () => {
     }
 
     const fetchProperties = async () => {
-      setLoading(true);
+      setIsLoading(true);
       setShowMore(false);
 
       const searchQuery = urlParams.toString();
@@ -70,9 +76,8 @@ const Properties = () => {
           }/properties/view-properties?${searchQuery}`
         );
         const data = await res.json();
-        console.log(loading, searchQuery);
         if (!res.ok) {
-          toast.error(data.message || "Failed to fetch properties");
+          setError("ServerError");
           return;
         }
 
@@ -82,13 +87,11 @@ const Properties = () => {
           setShowMore(false);
         }
 
-        setLoading(false);
+        setIsLoading(false);
         setProperties(data);
       } catch (error) {
-        setLoading(false);
-        toast.error(
-          error.message || "An error occurred while fetching properties"
-        );
+        setIsLoading(false);
+        setError("ServerError");
       }
     };
 
@@ -193,7 +196,7 @@ const Properties = () => {
   return (
     <div className="flex flex-col md:flex-row lg:space-x-6 mx-auto gap-2">
       <div className="w-full md:w-4/12 p-5 border-b-2 md:border-r-2 lg:min-h-screen lg:sticky lg:top-0 lg:h-screen overflow-auto">
-        <PropertyFilter
+        <PropertiesFilter
           sidebardata={sidebardata}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
@@ -201,20 +204,30 @@ const Properties = () => {
       </div>
       <div className="w-full md:w-8/12 overflow-auto">
         <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {loading && (
-            <div className="flex justify-center items-center w-full">
+          {isLoading && (
+            <div className="flex justify-center col-span-1 sm:col-span-2">
               <Loader />
             </div>
           )}
 
-          {!loading && properties.length === 0 ? (
-            <p className="text-xl text-slate-700">
-              No properties found matching your search criteria. Please try
-              adjusting your filters or search terms.
-            </p>
+          {error === "ServerError" && (
+            <SomethingWrong
+              title="OOPS!"
+              subtitle="Something went wrong while fetching properties."
+              description="Please check back later."
+            />
+          )}
+
+          {!isLoading && properties.length === 0 ? (
+            <div className="flex justify-center col-span-1 sm:col-span-2">
+              <SomethingWrong
+                subtitle="No properties found. Unable to find matching properties."
+                description="Please adjust your filters or check back later!"
+              />
+            </div>
           ) : null}
 
-          {!loading &&
+          {!isLoading &&
             properties &&
             properties.map((property) => (
               <PropertyItem key={property._id} property={property} />
