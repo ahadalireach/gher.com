@@ -210,7 +210,7 @@ const Properties = () => {
             </div>
           )}
 
-          {error === "ServerError" && (
+          {error === "ServerError" && !isLoading && (
             <SomethingWrong
               title="OOPS!"
               subtitle="Something went wrong while fetching properties."
