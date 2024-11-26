@@ -4,9 +4,9 @@ import { banner } from "../assets";
 
 const Hero = () => {
   return (
-    <div className="bg-gray-100">
+    <div className="max-w-6xl mx-auto">
       <div className="flex flex-col sm:flex-row">
-        <div className="flex flex-col flex-1 items-start justify-center text-left mt-10 p-6 lg:ml-24 lg:py-16">
+        <div className="flex flex-col flex-1 items-start justify-center text-left p-6 mt-14 sm:mt-0">
           <h6 className="text-sm font-extrabold text-gray-800 flex items-center justify-center sm:justify-start mb-4">
             <FaHome className="mr-2 text-green-700 font-semibold font-base" />
             Real Estate Agency

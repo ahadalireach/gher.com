@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import {
   Loader,
   PropertiesFilter,
@@ -211,14 +210,16 @@ const Properties = () => {
           )}
 
           {error === "ServerError" && !isLoading && (
-            <SomethingWrong
-              title="OOPS!"
-              subtitle="Something went wrong while fetching properties."
-              description="Please check back later."
-            />
+            <div className="flex justify-center col-span-1 sm:col-span-2">
+              <SomethingWrong
+                title="OOPS!"
+                subtitle="Something went wrong while fetching properties."
+                description="Please check back later."
+              />
+            </div>
           )}
 
-          {!isLoading && properties.length === 0 ? (
+          {!isLoading && !error && properties.length === 0 ? (
             <div className="flex justify-center col-span-1 sm:col-span-2">
               <SomethingWrong
                 subtitle="No properties found. Unable to find matching properties."

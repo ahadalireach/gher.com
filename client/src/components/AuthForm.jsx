@@ -138,7 +138,7 @@ const AuthForm = ({ type, onSubmit }) => {
           {type !== "admin" && (
             <Link
               to="/admin-signin"
-              className="text-red-700 hover:text-red-600 transition duration-200 group"
+              className="text-green-700 hover:text-green-900 transition duration-200 group"
             >
               Admin
             </Link>

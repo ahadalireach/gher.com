@@ -36,27 +36,27 @@
 ```plaintext
 client/
 ├── public/
-│   └── logo.svg                       // Logo file
+│   └── logo.svg                       # Logo file
 ├── src/
-│   ├── assets/                        // Images and other assets
-│   ├── redux/                         // State management
-│   ├── pages/                         // Page components
-│   ├── components/                    // Reusable UI components
-│   ├── App.jsx                        // React Router setup
-│   └── main.jsx                       // Application entry point
-├── .env                               // Environment variables
-└── index.html                         // Root HTML file
+│   ├── assets/                        # Images and other assets
+│   ├── redux/                         # State management
+│   ├── pages/                         # Page components
+│   ├── components/                    # Reusable UI components
+│   ├── App.jsx                        # React Router setup
+│   └── main.jsx                       # Application entry point
+├── .env                               # Environment variables
+└── index.html                         # Root HTML file
 ```
 
 ```plaintext
 api/
-├── controllers/                       // Business logic
-├── db/                                // Database connection
-├── models/                            // Data schemas
-├── routes/                            // API routes
-├── utils/                             // Helper functions
-├── .env                               // Environment variables
-└── index.js                           // Main server file
+├── controllers/                       # Core logic
+├── db/                                # Database connection
+├── models/                            # Data schemas
+├── routes/                            # API routes
+├── utils/                             # Helper functions
+├── .env                               # Environment variables
+└── index.js                           # Main server file
 ```
 
 ### Setup Instructions

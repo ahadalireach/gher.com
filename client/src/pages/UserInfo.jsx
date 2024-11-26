@@ -7,6 +7,7 @@ import {
   UserPersonalInfo,
   UserPropertiesInfo,
   SomethingWrong,
+  Loader,
 } from "../components";
 
 const UserInfo = () => {
@@ -17,6 +18,7 @@ const UserInfo = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] =
     useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [propertyIdToDelete, setPropertyIdToDelete] = useState(null);
 
@@ -44,6 +46,8 @@ const UserInfo = () => {
     } catch (error) {
       setError("ServerError");
       console.error("Fetch error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -134,6 +138,14 @@ const UserInfo = () => {
   const handleCancelDelete = () => {
     setIsDeleteConfirmationVisible(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center my-7 text-2xl text-gray-700">
+        <Loader />
+      </div>
+    );
+  }
 
   // ************** Render Error States ********* //
   if (error === "ServerError") {
