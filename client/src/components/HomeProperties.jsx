@@ -4,13 +4,13 @@ import { PropertyItem } from ".";
 
 const HomeProperties = ({ title, properties, url }) => {
   return (
-    <div className="text-center max-w-6xl mx-auto p-3 flex flex-col gap-8 my-5">
-      <div className="my-1">
+    <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-5">
+      <div className="my-1 text-center">
         <h2 className="text-sm text-green-800 font-semibold mb-2 bg-green-200 rounded-lg inline-block py-2 px-4">
           {title}
         </h2>
       </div>
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {properties.map((property) => (
           <PropertyItem property={property} key={property._id} />
         ))}

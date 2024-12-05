@@ -48,7 +48,7 @@ const ServicesOverview = () => {
             const IconComponent = item.icon;
             return (
               <div
-                className="bg-white shadow-xl p-6 text-center border border-gray-200 hover:border-green-700"
+                className="bg-white shadow-xl p-6 text-center border border-gray-200 hover:border-green-700 rounded-lg"
                 key={item.id}
               >
                 <div className="flex justify-center items-center mb-4 bg-green-200 rounded-full w-16 h-16 mx-auto shadow-md">

@@ -100,7 +100,7 @@ export const fetchAllProperties = async (req, res, next) => {
 
     let type = req.query.type;
     if (type === undefined || type === "allTypes") {
-      type = { $in: ["house", "flat", "farmhouse"] };
+      type = { $in: ["house", "flat", "farmhouse", "farmHouse"] };
     }
 
     const searchTerm = req.query.searchTerm || "";
