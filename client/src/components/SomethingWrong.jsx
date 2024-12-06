@@ -10,15 +10,15 @@ const SomethingWrong = ({ isHome, title, subtitle, description }) => {
     >
       <div className="text-center">
         {title && (
-          <h1 className="text-6xl font-bold text-green-700 mb-4">{title}</h1>
+          <h1 className="text-4xl font-bold text-green-700 mb-4">{title}</h1>
         )}
         {subtitle && (
-          <h2 className="text-3xl font-semibold text-gray-800 mb-2">
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">
             {subtitle}
           </h2>
         )}
         {description && (
-          <p className="text-lg text-gray-600 mb-8">{description}</p>
+          <p className="text-base text-gray-600 mb-8">{description}</p>
         )}
 
         {!isHome && (

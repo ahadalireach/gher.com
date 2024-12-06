@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { MdLocationOn, MdLocalOffer } from "react-icons/md";
 import { FaBed, FaBath } from "react-icons/fa";
 
-const PropertyItem = ({ property }) => {
+const PropertyItem = ({ property, isHome = false }) => {
   const placeholderImage =
     "https://media.licdn.com/dms/image/v2/C5112AQGk0v07-__eww/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1572933362281?e=2147483647&v=beta&t=FDjGV-8_D-kwPDWM9qga5ssTsEdsqJyriz1GtQOQgc8";
 
@@ -25,8 +25,8 @@ const PropertyItem = ({ property }) => {
       <div className="p-4 space-y-3">
         <Link to={`/property/${property._id}`} className="group">
           <h3 className="text-lg font-semibold text-gray-800 group-hover:text-green-600 transition">
-            {property.title.length > 80
-              ? property.title.slice(0, 80) + "..."
+            {property.title.length > (isHome ? 70 : 50)
+              ? property.title.slice(0, isHome ? 70 : 50) + "..."
               : property.title}
           </h3>
         </Link>
@@ -36,7 +36,7 @@ const PropertyItem = ({ property }) => {
           <p className="text-sm truncate">{property.address}</p>
         </div>
 
-        <div className="text-green-700 font-bold text-xl">
+        <div className="text-green-700 font-bold text-base">
           Rs {property.regularPrice.toLocaleString()}
           {property.purpose === "rent" && (
             <span className="text-sm">/month</span>

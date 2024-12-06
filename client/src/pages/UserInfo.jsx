@@ -18,7 +18,7 @@ const UserInfo = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] =
     useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [propertyIdToDelete, setPropertyIdToDelete] = useState(null);
 
@@ -162,7 +162,7 @@ const UserInfo = () => {
     return (
       <SomethingWrong
         title="Oops!"
-        subtitle="User  Not Found."
+        subtitle="User Not Found."
         description="Sorry, the user you're looking for does not exist. Please try again later."
       />
     );

@@ -9,7 +9,10 @@ const UserPersonalInfo = ({
   return (
     <div className="bg-white sm:rounded-2xl p-6 mt-6 gap-3 shadow-lg w-full max-w-2xl mx-auto border border-gray-200 flex flex-col items-center justify-center">
       <img
-        src={userData?.avatar || "/default-avatar.png"}
+        src={
+          userData?.avatar ||
+          "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+        }
         alt="User Avatar"
         className="h-28 w-28 sm:h-36 sm:w-36 rounded-full object-cover border-4 border-green-500 shadow-md"
       />

@@ -163,6 +163,7 @@ const Properties = () => {
     urlParams.set("order", sidebardata.order);
     const searchQuery = urlParams.toString();
 
+    setIsMobileFilterOpen(false);
     navigate(`/properties?${searchQuery}`);
   };
 
@@ -206,7 +207,7 @@ const Properties = () => {
             <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
               <div className="bg-white p-4 w-80 md:w-96 rounded-lg shadow-lg relative max-h-[90vh] overflow-y-auto">
                 <button
-                  className="absolute top-4 right-4 text-xl text-gray-600 hover:text-red-600 transition-all"
+                  className="absolute top-5 right-5 text-xl text-gray-600 hover:text-red-600 transition-all"
                   onClick={toggleMobileFilter}
                 >
                   &times;
@@ -265,7 +266,7 @@ const Properties = () => {
           {showMore && (
             <div className="text-center mt-8">
               <button
-                className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
+                className="bg-green-600 font-bold text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
                 onClick={onShowMoreClick}
               >
                 Load More Properties

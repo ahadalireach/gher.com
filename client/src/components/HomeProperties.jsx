@@ -12,7 +12,7 @@ const HomeProperties = ({ title, properties, url }) => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {properties.map((property) => (
-          <PropertyItem property={property} key={property._id} />
+          <PropertyItem property={property} key={property._id} isHome={true} />
         ))}
       </div>
       <div className="text-center mt-4">

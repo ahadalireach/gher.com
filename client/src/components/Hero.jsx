@@ -9,7 +9,7 @@ const Hero = () => {
         <div className="flex flex-col flex-1 items-start justify-center text-left p-6 mt-14 sm:mt-0">
           <h6 className="text-sm font-extrabold text-gray-800 flex items-center justify-center sm:justify-start mb-4">
             <FaHome className="mr-2 text-green-700 font-semibold font-base" />
-            Real Estate Agency
+            Property Solutions
           </h6>
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
             Find Your
